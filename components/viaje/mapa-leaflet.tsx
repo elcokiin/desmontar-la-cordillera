@@ -16,6 +16,36 @@ const ruta: [number, number][] = [
   lugares[0].coords,
 ]
 
+// Distancia geográfica (haversine) en km entre dos coordenadas [lat, lng].
+function distanciaKm(a: [number, number], b: [number, number]) {
+  const R = 6371 // radio terrestre en km
+  const rad = (d: number) => (d * Math.PI) / 180
+  const dLat = rad(b[0] - a[0])
+  const dLng = rad(b[1] - a[1])
+  const lat1 = rad(a[0])
+  const lat2 = rad(b[0])
+  const h =
+    Math.sin(dLat / 2) ** 2 +
+    Math.sin(dLng / 2) ** 2 * Math.cos(lat1) * Math.cos(lat2)
+  return 2 * R * Math.asin(Math.sqrt(h))
+}
+
+// Tramos de la ruta circular: cada lugar -> el siguiente (el último vuelve a Tunja).
+const tramos = lugares.map((lugar, i) => {
+  const destino = lugares[(i + 1) % lugares.length]
+  return {
+    origen: lugar.nombre,
+    destino: destino.nombre,
+    km: distanciaKm(lugar.coords, destino.coords),
+  }
+})
+
+// Kilómetros totales recorridos en la ruta circular.
+const kmTotales = tramos.reduce((acc, t) => acc + t.km, 0)
+
+const fmtKm = (km: number) =>
+  km.toLocaleString("es-CO", { maximumFractionDigits: 0 }) + " km"
+
 // Marcador cuadrado brutalista numerado, generado como divIcon.
 function crearIcono(numero: number, activo: boolean) {
   return L.divIcon({
@@ -93,6 +123,9 @@ export default function MapaLeaflet() {
               <p className="mapa-popup-datos">
                 {lugares[activo].altura.toLocaleString("es-CO")} m · {lugares[activo].temperatura}°C
               </p>
+              <p className="mapa-popup-tramo">
+                → {tramos[activo].destino}: {fmtKm(tramos[activo].km)}
+              </p>
             </div>
           </div>
         )}
@@ -111,12 +144,21 @@ export default function MapaLeaflet() {
                 onClick={() => setActivo(i)}
               >
                 <span className="mapa-leyenda-num">{i + 1}</span>
-                <span className="mapa-leyenda-nombre">{lugar.nombre}</span>
+                <span className="mapa-leyenda-nombre">
+                  {lugar.nombre}
+                  <span className="mapa-leyenda-tramo">
+                    → {tramos[i].destino} · {fmtKm(tramos[i].km)}
+                  </span>
+                </span>
                 <span className="mapa-leyenda-alt">{lugar.altura.toLocaleString("es-CO")} m</span>
               </button>
             </li>
           ))}
         </ol>
+        <p className="mapa-leyenda-total">
+          <span className="mapa-leyenda-total-lbl">Total recorrido</span>
+          <span className="mapa-leyenda-total-km">{fmtKm(kmTotales)}</span>
+        </p>
         <p className="mapa-leyenda-pie">
           <span className="mapa-leyenda-marca" /> Salida y llegada: Tunja
         </p>
