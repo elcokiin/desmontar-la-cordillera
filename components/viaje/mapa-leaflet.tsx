@@ -156,7 +156,7 @@ export default function MapaLeaflet() {
           ))}
         </ol>
         <p className="mapa-leyenda-total">
-          <span className="mapa-leyenda-total-lbl">Total recorrido</span>
+          <span className="mapa-leyenda-total-lbl mr-4">Total recorrido</span>
           <span className="mapa-leyenda-total-km">{fmtKm(kmTotales)}</span>
         </p>
         <p className="mapa-leyenda-pie">
