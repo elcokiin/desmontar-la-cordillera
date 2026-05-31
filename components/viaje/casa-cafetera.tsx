@@ -44,7 +44,7 @@ export function CasaCafetera() {
         </a>
       </p>
 
-      <p className="casa3d-intro mt-2">
+      <p className="casa3d-intro mt-12">
         Pero aguante un tantico... acomódese bien, sumercé, y arranquemos por el principio.
       </p>
     </section>
