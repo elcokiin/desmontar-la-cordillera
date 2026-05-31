@@ -24,8 +24,7 @@ export function Altimetro() {
     <aside className="altimetro" aria-label="Lugar, altura y temperatura del descenso">
       <p className="altimetro-titulo">
         {lugar.nombre}
-        <span className="altimetro-paso">
-          {"  "}
+        <span className="altimetro-paso ml-0.5">
           {indice + 1}/{total}
         </span>
       </p>
