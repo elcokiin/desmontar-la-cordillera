@@ -244,10 +244,10 @@ export type Lugar = {
 
 export const lugares: Lugar[] = [
   { nombre: "Tunja", altura: 2820, temperatura: 12, coords: [5.5353, -73.3678] },
+  { nombre: "Tocancipá", altura: 2606, temperatura: 14, coords: [4.9667, -73.9117] },
   { nombre: "Villeta", altura: 842, temperatura: 28, coords: [5.0103, -74.4717] },
   { nombre: "La Honda", altura: 229, temperatura: 31, coords: [5.1989, -74.7339] },
   { nombre: "Puerto Triunfo", altura: 150, temperatura: 32, coords: [5.8722, -74.6411] },
-  { nombre: "Santuario", altura: 2150, temperatura: 16, coords: [6.1389, -75.2647] },
   { nombre: "Medellín", altura: 1495, temperatura: 22, coords: [6.2442, -75.5812] },
   { nombre: "Santafé de Antioquia", altura: 550, temperatura: 29, coords: [6.5569, -75.8267] },
   { nombre: "Río Cauca", altura: 50, temperatura: 33, coords: [7.0847, -75.8893] },
