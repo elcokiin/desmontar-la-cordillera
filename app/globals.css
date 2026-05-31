@@ -746,41 +746,218 @@
   margin-bottom: 2rem;
   color: var(--arena);
 }
-.mapa-embed {
+/* Layout: mapa + leyenda */
+.mapa-interactivo {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+  align-items: stretch;
+}
+.mapa-canvas {
+  position: relative;
+  height: 560px;
+  border: 3px solid var(--acento);
+  box-shadow: 8px 8px 0px var(--arena);
+  background: var(--negro);
+}
+.mapa-leaflet {
   width: 100%;
-  height: 500px;
+  height: 100%;
+}
+.mapa-cargando {
+  width: 100%;
+  height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: var(--negro);
   border: 3px solid var(--acento);
   box-shadow: 8px 8px 0px var(--arena);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem;
-}
-.mapa-embed-icon {
-  width: 55px;
-  height: 55px;
-  color: var(--acento);
-}
-.mapa-embed p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--blanco);
-  text-align: center;
 }
-.mapa-embed code {
-  font-family: monospace;
-  font-size: 0.85rem;
-  background: var(--coral);
-  padding: 8px 16px;
+
+/* Mantén el fondo oscuro del mapa coherente con el tema */
+.mapa-leaflet .leaflet-container {
+  background: var(--negro);
+}
+
+/* Marcadores numerados (divIcon) */
+.mapa-pin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--negro);
+  border: 3px solid var(--arena);
+  color: var(--blanco);
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 1.1rem;
+  line-height: 1;
+  box-shadow: 3px 3px 0px var(--verde);
+  transition: transform 0.15s ease;
+}
+.mapa-pin.activo {
+  width: 40px;
+  height: 40px;
+  background: var(--arena);
+  border-color: var(--negro);
   color: var(--negro);
-  font-weight: bold;
-  display: block;
-  margin-top: 8px;
+  font-size: 1.4rem;
+  box-shadow: 3px 3px 0px var(--coral);
+  z-index: 500;
+}
+.mapa-pin-wrapper:hover .mapa-pin {
+  transform: translate(-2px, -2px);
+}
+
+/* Tarjeta flotante con datos del lugar */
+.mapa-popup {
+  position: absolute;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: var(--negro);
+  border: 3px solid var(--coral);
+  box-shadow: 5px 5px 0px var(--arena);
+  padding: 0.75rem 1rem;
+  max-width: calc(100% - 2rem);
+}
+.mapa-popup-num {
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 2.2rem;
+  line-height: 1;
+  color: var(--arena);
+}
+.mapa-popup-nombre {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--blanco);
+}
+.mapa-popup-datos {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--coral);
+  margin-top: 2px;
+}
+
+/* Leyenda / control */
+.mapa-leyenda {
+  background: var(--negro);
+  border: 3px solid var(--acento);
+  box-shadow: 8px 8px 0px var(--verde);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 560px;
+}
+.mapa-leyenda-titulo {
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 0.06em;
+  color: var(--arena);
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--acento);
+}
+.mapa-leyenda-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.mapa-leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-left: 4px solid transparent;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  font: inherit;
+  color: var(--blanco);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.mapa-leyenda-item:hover,
+.mapa-leyenda-item.activo {
+  background: var(--gris-tarjeta);
+  border-left-color: var(--arena);
+}
+.mapa-leyenda-num {
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 1.1rem;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--negro);
+  border: 2px solid var(--arena);
+  color: var(--arena);
+}
+.mapa-leyenda-item.activo .mapa-leyenda-num {
+  background: var(--arena);
+  color: var(--negro);
+}
+.mapa-leyenda-nombre {
+  flex: 1;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.mapa-leyenda-alt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--verde);
+}
+.mapa-leyenda-pie {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 2px solid var(--acento);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blanco);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.mapa-leyenda-marca {
+  width: 14px;
+  height: 14px;
+  background: var(--arena);
+  border: 2px solid var(--negro);
+  box-shadow: 2px 2px 0px var(--coral);
+  flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+  .mapa-interactivo {
+    grid-template-columns: 1fr;
+  }
+  .mapa-canvas {
+    height: 420px;
+  }
+  .mapa-leyenda {
+    max-height: none;
+  }
+  .mapa-leyenda-lista {
+    max-height: 320px;
+  }
 }
 
 /* ---- REFLEXIONES ---- */

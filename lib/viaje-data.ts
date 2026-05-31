@@ -239,22 +239,23 @@ export type Lugar = {
   nombre: string
   altura: number // m s. n. m.
   temperatura: number // °C
+  coords: [number, number] // [lat, lng] — usado por el mapa interactivo
 }
 
 export const lugares: Lugar[] = [
-  { nombre: "Tunja", altura: 2820, temperatura: 12 },
-  { nombre: "Villeta", altura: 842, temperatura: 28 },
-  { nombre: "La Honda", altura: 229, temperatura: 31 },
-  { nombre: "Puerto Triunfo", altura: 150, temperatura: 32 },
-  { nombre: "Santuario", altura: 2150, temperatura: 16 },
-  { nombre: "Medellín", altura: 1495, temperatura: 22 },
-  { nombre: "Santafé de Antioquia", altura: 550, temperatura: 29 },
-  { nombre: "Río Cauca", altura: 50, temperatura: 33 },
-  { nombre: "Apartadó", altura: 25, temperatura: 34 },
-  { nombre: "Turbo (Antioquia)", altura: 2, temperatura: 35 },
-  { nombre: "Medellín", altura: 1495, temperatura: 22 },
-  { nombre: "Guatapé", altura: 1925, temperatura: 18 },
-  { nombre: "Puerto Boyacá", altura: 110, temperatura: 33 },
+  { nombre: "Tunja", altura: 2820, temperatura: 12, coords: [5.5353, -73.3678] },
+  { nombre: "Villeta", altura: 842, temperatura: 28, coords: [5.0103, -74.4717] },
+  { nombre: "La Honda", altura: 229, temperatura: 31, coords: [5.1989, -74.7339] },
+  { nombre: "Puerto Triunfo", altura: 150, temperatura: 32, coords: [5.8722, -74.6411] },
+  { nombre: "Santuario", altura: 2150, temperatura: 16, coords: [6.1389, -75.2647] },
+  { nombre: "Medellín", altura: 1495, temperatura: 22, coords: [6.2442, -75.5812] },
+  { nombre: "Santafé de Antioquia", altura: 550, temperatura: 29, coords: [6.5569, -75.8267] },
+  { nombre: "Río Cauca", altura: 50, temperatura: 33, coords: [7.0847, -75.8893] },
+  { nombre: "Apartadó", altura: 25, temperatura: 34, coords: [7.8836, -76.6256] },
+  { nombre: "Turbo (Antioquia)", altura: 2, temperatura: 35, coords: [8.0922, -76.7281] },
+  { nombre: "Medellín", altura: 1495, temperatura: 22, coords: [6.2442, -75.5812] },
+  { nombre: "Guatapé", altura: 1925, temperatura: 18, coords: [6.2336, -75.1592] },
+  { nombre: "Puerto Boyacá", altura: 110, temperatura: 33, coords: [5.9756, -74.5883] },
 ]
 
 /**
