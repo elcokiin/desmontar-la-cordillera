@@ -1197,12 +1197,13 @@
   color: var(--verde);
 }
 
-/* ---- ALTÍMETRO (panel movible / minimizable) ---- */
+/* ---- ALTÍMETRO (panel movible / minimizable, anclado bajo el header) ---- */
 .altimetro {
   position: fixed;
   right: 1.25rem;
-  top: 50%;
-  transform: translateY(-50%);
+  /* Alineado debajo del header fijo, en la parte superior (no centrado). */
+  top: 5.5rem;
+  transform: none;
   z-index: 90;
   width: 160px;
   background: var(--negro);
