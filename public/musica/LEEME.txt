@@ -1,0 +1,17 @@
+CARPETA DE MÚSICA — "La radio del bus"
+======================================
+
+1. Copia aquí tus archivos .mp3 (por ejemplo: carretera.mp3, vallenato.mp3, etc.).
+
+2. Abre el archivo  lib/musica.ts  y escribe el nombre de cada archivo
+   dentro de la lista PLAYLIST. Ejemplo:
+
+     export const PLAYLIST: string[] = [
+       "carretera.mp3",
+       "vallenato.mp3",
+     ]
+
+3. Listo. El botón "Encender la radio del bus" reproducirá esas canciones.
+
+Nota: la música NO suena automáticamente; solo empieza cuando el usuario
+hace clic en el botón / acepta el diálogo de la radio.
