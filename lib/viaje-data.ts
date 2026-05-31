@@ -231,3 +231,38 @@ export const ALTITUD_INICIAL = 2820 // metros — Tunja
 export const ALTITUD_FINAL = 0 // metros — nivel del mar, Urabá
 export const TEMP_INICIAL = 12 // °C — frío de Boyacá
 export const TEMP_FINAL = 43 // °C — calor del Urabá
+
+// Lugares del recorrido con su respectiva información.
+// `altura` en metros sobre el nivel del mar, `temperatura` en °C.
+// Valores de ejemplo: ajústalos con tus datos reales de campo.
+export type Lugar = {
+  nombre: string
+  altura: number // m s. n. m.
+  temperatura: number // °C
+}
+
+export const lugares: Lugar[] = [
+  { nombre: "Tunja", altura: 2820, temperatura: 12 },
+  { nombre: "Villeta", altura: 842, temperatura: 28 },
+  { nombre: "La Honda", altura: 229, temperatura: 31 },
+  { nombre: "Puerto Triunfo", altura: 150, temperatura: 32 },
+  { nombre: "Santuario", altura: 2150, temperatura: 16 },
+  { nombre: "Medellín", altura: 1495, temperatura: 22 },
+  { nombre: "Santafé de Antioquia", altura: 550, temperatura: 29 },
+  { nombre: "Río Cauca", altura: 50, temperatura: 33 },
+  { nombre: "Apartadó", altura: 25, temperatura: 34 },
+  { nombre: "Turbo (Antioquia)", altura: 2, temperatura: 35 },
+  { nombre: "Medellín", altura: 1495, temperatura: 22 },
+  { nombre: "Guatapé", altura: 1925, temperatura: 18 },
+  { nombre: "Puerto Boyacá", altura: 110, temperatura: 33 },
+]
+
+/**
+ * Lugares ordenados del más alto y frío al más bajo y caliente.
+ * Ranking: primero por altura (descendente) y, como desempate,
+ * por temperatura (ascendente).
+ */
+export const lugaresOrdenados: Lugar[] = [...lugares].sort((a, b) => {
+  if (b.altura !== a.altura) return b.altura - a.altura
+  return a.temperatura - b.temperatura
+})

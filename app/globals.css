@@ -944,12 +944,18 @@
 }
 .altimetro-titulo {
   font-family: var(--font-grotesk), sans-serif;
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--arena);
   text-align: center;
+  line-height: 1.3;
+}
+.altimetro-paso {
+  display: inline-block;
+  color: var(--coral);
+  letter-spacing: 0.1em;
 }
 .altimetro-bloque {
   text-align: center;
