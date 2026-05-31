@@ -25,7 +25,7 @@ export function Altimetro() {
       <p className="altimetro-titulo">
         {lugar.nombre}
         <span className="altimetro-paso">
-          {" "}
+          {"  "}
           {indice + 1}/{total}
         </span>
       </p>
