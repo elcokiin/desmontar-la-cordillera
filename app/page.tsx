@@ -2,6 +2,7 @@ import { EditBanner } from "@/components/viaje/edit-banner"
 import { NavBar } from "@/components/viaje/nav-bar"
 import { Hero } from "@/components/viaje/hero"
 import { Intro } from "@/components/viaje/intro"
+import { CasaCafetera } from "@/components/viaje/casa-cafetera"
 import { Transecto } from "@/components/viaje/transecto"
 import { Mapa } from "@/components/viaje/mapa"
 import { Reflexiones } from "@/components/viaje/reflexiones"
@@ -23,6 +24,7 @@ export default function Page() {
       <main>
         <Hero />
         <Intro />
+        <CasaCafetera />
         <Transecto />
         <Mapa />
         <Reflexiones />
