@@ -230,4 +230,4 @@ export const equipo: Integrante[] = [
 export const ALTITUD_INICIAL = 2820 // metros — Tunja
 export const ALTITUD_FINAL = 0 // metros — nivel del mar, Urabá
 export const TEMP_INICIAL = 12 // °C — frío de Boyacá
-export const TEMP_FINAL = 30 // °C — calor del Urabá
+export const TEMP_FINAL = 43 // °C — calor del Urabá
