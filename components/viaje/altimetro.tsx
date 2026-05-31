@@ -1,85 +1,85 @@
 "use client"
 
-import { useCallback, useEffect, useRef, useState } from "react"
-import { Minus, Plus, Move } from "lucide-react"
+import { useCallback, useRef, useState } from "react"
+import { Move, Minus, Plus } from "lucide-react"
 import { useScrollProgress } from "@/hooks/use-scroll-progress"
 import { lugaresOrdenados } from "@/lib/viaje-data"
 
 /**
- * Panel del descenso.
- * - Se puede arrastrar a cualquier punto de la pantalla (drag con pointer events).
- * - Se puede minimizar/expandir con el botón de control.
- * A medida que el usuario hace scroll, recorre la lista de lugares ordenada
- * del más alto y frío (Tunja) al más bajo y caliente (Turbo / Urabá),
- * mostrando en cada paso el lugar actual con su altura y temperatura.
+ * Panel del termómetro/altímetro.
+ * - A medida que el usuario hace scroll, recorre la lista de lugares ordenada
+ *   del más alto y frío (Tunja) al más bajo y caliente (Turbo / Urabá).
+ * - Se puede ARRASTRAR a cualquier parte de la pantalla (pointer events).
+ * - Se puede MINIMIZAR a un resumen compacto y restaurar.
  */
 export function Altimetro() {
   const progress = useScrollProgress()
-  const [minimizado, setMinimizado] = useState(false)
-  // posición personalizada (null = posición por defecto del CSS)
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
-  const panelRef = useRef<HTMLElement>(null)
-  const arrastre = useRef<{ dx: number; dy: number } | null>(null)
 
   const total = lugaresOrdenados.length
   const indice = Math.min(total - 1, Math.max(0, Math.floor(progress * total)))
   const lugar = lugaresOrdenados[indice]
 
-  const onPointerMove = useCallback((e: PointerEvent) => {
-    if (!arrastre.current || !panelRef.current) return
-    const { dx, dy } = arrastre.current
-    const ancho = panelRef.current.offsetWidth
-    const alto = panelRef.current.offsetHeight
-    // mantener el panel dentro del viewport
-    const x = Math.min(Math.max(8, e.clientX - dx), window.innerWidth - ancho - 8)
-    const y = Math.min(Math.max(8, e.clientY - dy), window.innerHeight - alto - 8)
+  const [minimizado, setMinimizado] = useState(false)
+  // pos = null => usa la posición por defecto del CSS (borde derecho, centrado).
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
+  const arrastre = useRef<{ dx: number; dy: number } | null>(null)
+
+  const onPointerDown = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    // Solo arrastrar desde la barra de título, no desde el botón de minimizar.
+    if ((e.target as HTMLElement).closest(".altimetro-toggle")) return
+    const panel = e.currentTarget.closest(".altimetro") as HTMLElement | null
+    if (!panel) return
+    const rect = panel.getBoundingClientRect()
+    arrastre.current = { dx: e.clientX - rect.left, dy: e.clientY - rect.top }
+    e.currentTarget.setPointerCapture(e.pointerId)
+  }, [])
+
+  const onPointerMove = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
+    if (!arrastre.current) return
+    const panel = e.currentTarget.closest(".altimetro") as HTMLElement | null
+    if (!panel) return
+    const w = panel.offsetWidth
+    const h = panel.offsetHeight
+    // Clampea dentro del viewport para que nunca quede inalcanzable.
+    const x = Math.min(Math.max(0, e.clientX - arrastre.current.dx), window.innerWidth - w)
+    const y = Math.min(Math.max(0, e.clientY - arrastre.current.dy), window.innerHeight - h)
     setPos({ x, y })
   }, [])
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = useCallback((e: React.PointerEvent<HTMLDivElement>) => {
     arrastre.current = null
-    window.removeEventListener("pointermove", onPointerMove)
-    window.removeEventListener("pointerup", onPointerUp)
-  }, [onPointerMove])
-
-  const onPointerDown = (e: React.PointerEvent) => {
-    if (!panelRef.current) return
-    const rect = panelRef.current.getBoundingClientRect()
-    arrastre.current = { dx: e.clientX - rect.left, dy: e.clientY - rect.top }
-    // al empezar a arrastrar, fija la posición actual para evitar saltos
-    setPos({ x: rect.left, y: rect.top })
-    window.addEventListener("pointermove", onPointerMove)
-    window.addEventListener("pointerup", onPointerUp)
-  }
-
-  useEffect(() => {
-    return () => {
-      window.removeEventListener("pointermove", onPointerMove)
-      window.removeEventListener("pointerup", onPointerUp)
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId)
+    } catch {
+      /* noop */
     }
-  }, [onPointerMove, onPointerUp])
+  }, [])
 
-  const estilo = pos
-    ? { left: pos.x, top: pos.y, right: "auto", bottom: "auto", transform: "none" }
-    : undefined
+  const estiloMovido = pos ? { left: pos.x, top: pos.y, right: "auto" as const } : undefined
 
   return (
     <aside
-      ref={panelRef}
-      className={`altimetro${minimizado ? " minimizado" : ""}${pos ? " movido" : ""}`}
-      style={estilo}
+      className={`altimetro${pos ? " movido" : ""}${minimizado ? " minimizado" : ""}`}
+      style={estiloMovido}
       aria-label="Lugar, altura y temperatura del descenso"
     >
-      <div className="altimetro-barra-titulo" onPointerDown={onPointerDown}>
+      <div
+        className="altimetro-barra-titulo"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        role="button"
+        tabIndex={0}
+        aria-label="Arrastra para mover el termómetro"
+      >
         <Move className="altimetro-mover-icon" aria-hidden="true" />
         <span className="altimetro-arrastre-lbl">Arrastra</span>
         <button
           type="button"
           className="altimetro-toggle"
-          onPointerDown={(e) => e.stopPropagation()}
-          onClick={() => setMinimizado((v) => !v)}
-          aria-label={minimizado ? "Expandir termómetro" : "Minimizar termómetro"}
+          onClick={() => setMinimizado((m) => !m)}
           aria-expanded={!minimizado}
+          aria-label={minimizado ? "Expandir termómetro" : "Minimizar termómetro"}
         >
           {minimizado ? <Plus size={14} /> : <Minus size={14} />}
         </button>
