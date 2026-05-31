@@ -9,7 +9,7 @@ export const CARPETA_MUSICA = "/musica"
 export const PLAYLIST: string[] = [
   "amanecer.mp3",
   "vida.mp3",
-  // "cancion-3.mp3",
+  "sueno.mp3",
 ]
 
 /** Devuelve la ruta pública completa de una canción de la carpeta /musica. */
