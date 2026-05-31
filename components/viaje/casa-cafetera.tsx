@@ -1,12 +1,9 @@
 export function CasaCafetera() {
   return (
     <section className="casa3d-section" id="casa-cafetera" aria-labelledby="casa3d-title">
-      <p className="section-eyebrow">Modelo 3D · Punto de partida</p>
-      <h2 id="casa3d-title">La casa cafetera</h2>
+      <h2 id="casa3d-title">PRIMER AVISO</h2>
       <p className="casa3d-intro">
-        Antes de bajar la cordillera, el origen: la arquitectura rural andina de
-        tierra fría. Gira, acerca y explora el modelo para reconocer la vivienda
-        cafetera que abre el recorrido.
+        Abra el ojo antes del descenso. Justo aquí, entre la teja de barro y la hoja de plátano, es donde Colombia cambia de temperatura.
       </p>
 
       <div className="casa3d-frame">
@@ -45,6 +42,10 @@ export function CasaCafetera() {
         >
           Sketchfab
         </a>
+      </p>
+
+      <p className="casa3d-intro mt-2">
+        Pero aguante un tantico... acomódese bien, sumercé, y arranquemos por el principio.
       </p>
     </section>
   )
