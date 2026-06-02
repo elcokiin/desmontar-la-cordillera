@@ -38,6 +38,24 @@ export function NavBar() {
   return (
     <nav className="nav-bar">
       <a href="#" className="nav-logo" onClick={(e) => handleClick(e, "#")}>
+        <svg
+          className="nav-logo-icon"
+          viewBox="0 0 32 32"
+          width="24"
+          height="24"
+          role="img"
+          aria-label="Logo planeta Tierra"
+        >
+          <circle cx="16" cy="16" r="14" fill="#0284c7" stroke="#f9e076" strokeWidth="2" />
+          <clipPath id="navLogoGlobe">
+            <circle cx="16" cy="16" r="13" />
+          </clipPath>
+          <g clipPath="url(#navLogoGlobe)" fill="#327028">
+            <path d="M5 11c3-1 6 0 7 2s-1 4-3 4-3-1-4-3-1-2 0-3Z" />
+            <path d="M17 5c3 0 5 2 6 4s-1 4-3 4-2-2-4-3-2-5 1-5Z" />
+            <path d="M13 18c3-1 7 0 9 3s0 5-3 6-6-1-7-4 0-4 1-5Z" />
+          </g>
+        </svg>
         Geografía Humana · Colombia
       </a>
       <ul className="nav-links">

@@ -186,11 +186,21 @@
   border-bottom: var(--borde-grueso);
 }
 .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--font-bebas), sans-serif;
   font-size: 1.4rem;
   letter-spacing: 0.1em;
   color: var(--arena);
   text-decoration: none;
+}
+.nav-logo-icon {
+  flex-shrink: 0;
+  transition: transform 0.4s ease;
+}
+.nav-logo:hover .nav-logo-icon {
+  transform: rotate(25deg);
 }
 .nav-links {
   display: flex;
