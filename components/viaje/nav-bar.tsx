@@ -37,7 +37,7 @@ export function NavBar() {
 
   return (
     <nav className="nav-bar">
-      <a href="#" className="nav-logo" onClick={(e) => handleClick(e, "#")}>
+      <a href="#" className="nav-logo flex flex-row gap-2" onClick={(e) => handleClick(e, "#")}>
         <svg
           className="nav-logo-icon"
           viewBox="0 0 32 32"
