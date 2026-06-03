@@ -1,3 +1,5 @@
+import { Github } from "lucide-react"
+
 export function SiteFooter() {
   return (
     <footer className="viaje-footer">
@@ -21,6 +23,16 @@ export function SiteFooter() {
           Licenciatura en Ciencias Sociales &nbsp;·&nbsp; Geografía Humana &nbsp;·&nbsp; 2026
         </span>
         <span>Informe de salida de campo: Tunja - Urabá</span>
+        <a
+          className="footer-code-link"
+          href="https://github.com/elcokiin/desmontar-la-cordillera"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <span>El código de la página lo pueden encontrar aquí:</span>
+          <Github aria-hidden="true" size={18} />
+          <strong>github elcokiin</strong>
+        </a>
       </div>
     </footer>
   )

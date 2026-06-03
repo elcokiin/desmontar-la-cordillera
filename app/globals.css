@@ -1481,17 +1481,17 @@
 .footer-quote-mark {
   margin-top: -0.2em;
   font-family: var(--font-bebas), sans-serif;
-  font-size: clamp(7rem, 16vw, 14rem);
+  font-size: clamp(4.5rem, 10vw, 8.5rem);
   line-height: 0.75;
   color: var(--acento);
-  text-shadow: 7px 7px 0 var(--negro);
+  text-shadow: 5px 5px 0 var(--negro);
 }
 .footer-quote p {
-  max-width: 980px;
+  max-width: 920px;
   margin: 0;
-  font-size: clamp(1.35rem, 3vw, 2.75rem);
+  font-size: clamp(1.05rem, 2vw, 1.75rem);
   font-weight: 700;
-  line-height: 1.15;
+  line-height: 1.28;
   text-wrap: balance;
 }
 .footer-quote cite {
@@ -1503,7 +1503,7 @@
   border: 2px solid var(--negro);
   box-shadow: 4px 4px 0 var(--negro);
   font-family: var(--font-bebas), sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.15rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1;
@@ -1520,6 +1520,30 @@
   flex-wrap: wrap;
   border-top: 1px solid color-mix(in srgb, var(--blanco) 18%, transparent);
   color: color-mix(in srgb, var(--blanco) 76%, transparent);
+}
+.footer-code-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--blanco);
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.footer-code-link svg {
+  flex-shrink: 0;
+  color: var(--acento);
+}
+.footer-code-link strong {
+  color: var(--arena);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.footer-code-link:hover {
+  color: var(--acento);
+  transform: translateY(-1px);
 }
 .footer-logo {
   font-family: var(--font-bebas), sans-serif;
@@ -1793,11 +1817,15 @@
     text-align: left;
   }
   .footer-quote-mark {
-    font-size: 6rem;
+    font-size: 4.5rem;
   }
   .footer-meta {
     flex-direction: column;
     text-align: center;
+  }
+  .footer-code-link {
+    justify-content: center;
+    flex-wrap: wrap;
   }
 }
 
