@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Radio, Play, SkipForward, Square } from "lucide-react"
+import { Radio, Pause, SkipForward } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -149,12 +149,12 @@ export function RadioBus() {
         >
           {encendida ? (
             <>
-              <Square className="size-4 shrink-0 fill-current" />
+              <Pause className="size-4 shrink-0" />
               <span className="radio-fab-label">Apagar la radio del bus</span>
             </>
           ) : (
             <>
-              <Play className="size-4 shrink-0 fill-current" />
+              <Radio className="size-4 shrink-0" />
               <span className="radio-fab-label">Encender la radio del bus</span>
             </>
           )}
