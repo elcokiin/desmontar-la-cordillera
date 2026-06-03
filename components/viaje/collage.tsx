@@ -9,11 +9,19 @@ import { Download, RefreshCcw, X } from "lucide-react"
 import { toPng } from "html-to-image"
 
 import { collageImages } from "@/lib/collage-images"
+import styles from "./collage.module.css"
 
 gsap.registerPlugin(ScrollTrigger)
 
 const PHOTO_COUNT = 22
 const shapes = ["classic", "rounded", "ticket", "soft", "wide"] as const
+const shapeClassNames: Record<(typeof shapes)[number], string> = {
+  classic: "",
+  rounded: styles.shapeRounded,
+  ticket: styles.shapeTicket,
+  soft: styles.shapeSoft,
+  wide: styles.shapeWide,
+}
 const anchors = [
   [0, 1, 27],
   [16, 4, 24],
@@ -110,7 +118,7 @@ export function Collage() {
     () => {
       if (photos.length === 0) return
 
-      const items = gsap.utils.toArray<HTMLElement>(".collage-photo")
+      const items = gsap.utils.toArray<HTMLElement>(`.${styles.photo}`)
 
       gsap.set(items, { willChange: "transform, opacity" })
 
@@ -189,23 +197,23 @@ export function Collage() {
   }
 
   return (
-    <section className="collage-section" id="collage" aria-labelledby="collage-title" ref={sectionRef}>
-      <div className="collage-heading">
+    <section className={styles.section} id="collage" aria-labelledby="collage-title" ref={sectionRef}>
+      <div className={styles.heading}>
         <div>
           <p className="section-eyebrow">Memoria visual</p>
           <h2 id="collage-title">El mosaico del descenso</h2>
-          <p className="collage-intro">
+          <p className={styles.intro}>
             Fragmentos de siete días entre la ruana y el banano: rostros, ríos,
             laderas y caminos que dibujan el transecto de la cordillera al Golfo.
           </p>
         </div>
-        <div className="collage-actions" aria-label="Controles del mosaico">
-          <button className="collage-action" type="button" onClick={refreshCollage}>
+        <div className={styles.actions} aria-label="Controles del mosaico">
+          <button className={styles.action} type="button" onClick={refreshCollage}>
             <RefreshCcw aria-hidden="true" size={18} />
             Nuevo mosaico
           </button>
           <button
-            className="collage-action collage-action-primary"
+            className={`${styles.action} ${styles.actionPrimary}`}
             type="button"
             onClick={downloadCollage}
             disabled={photos.length === 0 || isDownloading}
@@ -217,8 +225,8 @@ export function Collage() {
       </div>
 
       {photos.length > 0 ? (
-        <div className="collage-stage" ref={boardRef} aria-label="Collage generado con fotos del recorrido">
-          <div className="collage-paper" aria-hidden="true" />
+        <div className={styles.stage} ref={boardRef} aria-label="Collage generado con fotos del recorrido">
+          <div className={styles.paper} aria-hidden="true" />
           {photos.map((photo, index) => {
             const style = {
               "--x": `${photo.x}%`,
@@ -231,12 +239,12 @@ export function Collage() {
 
             return (
               <figure
-                className={`collage-photo collage-shape-${photo.shape}`}
+                className={`${styles.photo} ${shapeClassNames[photo.shape]}`}
                 key={`${seed}-${photo.src}`}
                 style={style}
               >
                 <button
-                  className="collage-photo-button"
+                  className={styles.photoButton}
                   type="button"
                   onClick={() => setSelectedPhoto(photo)}
                   aria-label={`Ampliar ${photo.alt}`}
@@ -249,16 +257,16 @@ export function Collage() {
           })}
         </div>
       ) : (
-        <div className="collage-empty">
+        <div className={styles.empty}>
           <p>Agrega fotos en assets/images/collage y vuelve a ejecutar el proyecto.</p>
         </div>
       )}
 
       {selectedPhoto ? (
-        <div className="collage-lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
-          <button className="collage-lightbox-backdrop" type="button" onClick={() => setSelectedPhoto(null)} />
-          <figure className="collage-lightbox-frame">
-            <button className="collage-lightbox-close" type="button" onClick={() => setSelectedPhoto(null)}>
+        <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label="Foto ampliada">
+          <button className={styles.lightboxBackdrop} type="button" onClick={() => setSelectedPhoto(null)} />
+          <figure className={styles.lightboxFrame}>
+            <button className={styles.lightboxClose} type="button" onClick={() => setSelectedPhoto(null)}>
               <X aria-hidden="true" size={22} />
               <span className="sr-only">Cerrar foto ampliada</span>
             </button>
