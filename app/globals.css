@@ -1089,6 +1089,8 @@
 
 /* ---- MAPA ---- */
 .mapa-section {
+  position: relative;
+  z-index: 0;
   padding: 5rem 2.5rem;
   border-bottom: var(--borde-grueso);
   background: var(--gris-tarjeta);
@@ -1108,12 +1110,17 @@
 }
 .mapa-canvas {
   position: relative;
+  z-index: 0;
+  isolation: isolate;
   height: 560px;
   border: 3px solid var(--acento);
   box-shadow: 8px 8px 0px var(--arena);
   background: var(--negro);
+  overflow: hidden;
 }
 .mapa-leaflet {
+  position: relative;
+  z-index: 0;
   width: 100%;
   height: 100%;
 }
@@ -1135,7 +1142,31 @@
 
 /* Mantén el fondo oscuro del mapa coherente con el tema */
 .mapa-leaflet .leaflet-container {
+  position: relative;
+  z-index: 0;
   background: var(--negro);
+}
+.mapa-leaflet .leaflet-tile-pane {
+  z-index: 1;
+}
+.mapa-leaflet .leaflet-overlay-pane {
+  z-index: 2;
+}
+.mapa-leaflet .leaflet-shadow-pane {
+  z-index: 3;
+}
+.mapa-leaflet .leaflet-marker-pane {
+  z-index: 4;
+}
+.mapa-leaflet .leaflet-tooltip-pane {
+  z-index: 5;
+}
+.mapa-leaflet .leaflet-popup-pane {
+  z-index: 6;
+}
+.mapa-leaflet .leaflet-control-container {
+  position: relative;
+  z-index: 7;
 }
 
 /* Marcadores numerados (divIcon) */
@@ -1173,7 +1204,7 @@
   position: absolute;
   left: 1rem;
   bottom: 1rem;
-  z-index: 600;
+  z-index: 8;
   display: flex;
   align-items: center;
   gap: 0.85rem;
