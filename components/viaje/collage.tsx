@@ -10,6 +10,7 @@ import { Download, RefreshCcw } from "lucide-react"
 import { toPng } from "html-to-image"
 
 import { collageImages } from "@/lib/collage-images"
+import { scheduleImagePreviewPrefetch } from "@/lib/image-prefetch"
 import { ImageLightbox } from "@/components/viaje/image-lightbox"
 import styles from "./collage.module.css"
 
@@ -114,6 +115,7 @@ export function Collage() {
   const [seed, setSeed] = useState("cordillera-collage")
   const [isDownloading, setIsDownloading] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState<LayoutPhoto | null>(null)
+  const cancelPrefetchRef = useRef<(() => void) | null>(null)
   const photos = useMemo(() => generateLayout(seed), [seed])
 
   useGSAP(
@@ -161,8 +163,20 @@ export function Collage() {
   )
 
   function refreshCollage() {
+    cancelPrefetchRef.current?.()
+    cancelPrefetchRef.current = null
     setSelectedPhoto(null)
     setSeed(`cordillera-${Date.now()}-${Math.random()}`)
+  }
+
+  function prefetchPhoto(src: string) {
+    cancelPrefetchRef.current?.()
+    cancelPrefetchRef.current = scheduleImagePreviewPrefetch(src)
+  }
+
+  function cancelPrefetch() {
+    cancelPrefetchRef.current?.()
+    cancelPrefetchRef.current = null
   }
 
   async function downloadCollage() {
@@ -236,6 +250,8 @@ export function Collage() {
                   className={styles.photoButton}
                   type="button"
                   onClick={() => setSelectedPhoto(photo)}
+                  onPointerEnter={() => prefetchPhoto(photo.src)}
+                  onPointerLeave={cancelPrefetch}
                   aria-label={`Ampliar ${photo.alt}`}
                 >
                   <Image

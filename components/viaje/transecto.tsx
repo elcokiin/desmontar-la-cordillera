@@ -1,22 +1,27 @@
 "use client"
 
 import Image from "next/image"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
 import { ImageLightbox, type LightboxImage } from "@/components/viaje/image-lightbox"
 import { PullQuote } from "@/components/viaje/pull-quote"
 import { VideoCorto } from "@/components/viaje/video-corto"
+import { scheduleImagePreviewPrefetch } from "@/lib/image-prefetch"
 
 function DiaSection({
   dia,
   abierto,
   onToggle,
   onSelectPhoto,
+  onPrefetchPhoto,
+  onCancelPrefetch,
 }: {
   dia: Dia
   abierto: boolean
   onToggle: () => void
   onSelectPhoto: (photo: LightboxImage) => void
+  onPrefetchPhoto: (src: string) => void
+  onCancelPrefetch: () => void
 }) {
   const tieneSidebar = dia.fotos.length > 0 || Boolean(dia.videoId)
 
@@ -77,6 +82,8 @@ function DiaSection({
                       className="dia-foto-button"
                       type="button"
                       onClick={() => onSelectPhoto(f)}
+                      onPointerEnter={() => onPrefetchPhoto(f.src)}
+                      onPointerLeave={onCancelPrefetch}
                       aria-label={`Ampliar ${f.alt}`}
                     >
                       <Image
@@ -106,6 +113,17 @@ export function Transecto() {
   const [abiertos, setAbiertos] = useState<Set<number>>(() => new Set([1]))
   const [activo, setActivo] = useState(1)
   const [selectedPhoto, setSelectedPhoto] = useState<LightboxImage | null>(null)
+  const cancelPrefetchRef = useRef<(() => void) | null>(null)
+
+  function prefetchPhoto(src: string) {
+    cancelPrefetchRef.current?.()
+    cancelPrefetchRef.current = scheduleImagePreviewPrefetch(src)
+  }
+
+  function cancelPrefetch() {
+    cancelPrefetchRef.current?.()
+    cancelPrefetchRef.current = null
+  }
 
   const toggleDia = (n: number) => {
     setAbiertos((prev) => {
@@ -169,6 +187,8 @@ export function Transecto() {
             abierto={abiertos.has(dia.numero)}
             onToggle={() => toggleDia(dia.numero)}
             onSelectPhoto={setSelectedPhoto}
+            onPrefetchPhoto={prefetchPhoto}
+            onCancelPrefetch={cancelPrefetch}
           />
         ))}
 
@@ -181,6 +201,8 @@ export function Transecto() {
             abierto={abiertos.has(dia.numero)}
             onToggle={() => toggleDia(dia.numero)}
             onSelectPhoto={setSelectedPhoto}
+            onPrefetchPhoto={prefetchPhoto}
+            onCancelPrefetch={cancelPrefetch}
           />
         ))}
       </div>

@@ -23,6 +23,7 @@ function fileNameFromSrc(src: string) {
 
 export function ImageLightbox({ image, onClose, downloadName }: ImageLightboxProps) {
   const [isDownloading, setIsDownloading] = useState(false)
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   useEffect(() => {
     if (!image) return
@@ -34,6 +35,10 @@ export function ImageLightbox({ image, onClose, downloadName }: ImageLightboxPro
     window.addEventListener("keydown", closeOnEscape)
     return () => window.removeEventListener("keydown", closeOnEscape)
   }, [image, onClose])
+
+  useEffect(() => {
+    setIsImageLoaded(false)
+  }, [image?.src])
 
   async function downloadImage() {
     if (!image || isDownloading) return
@@ -59,7 +64,10 @@ export function ImageLightbox({ image, onClose, downloadName }: ImageLightboxPro
   return (
     <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label="Foto ampliada">
       <button className={styles.backdrop} type="button" onClick={onClose} />
-      <figure className={styles.frame}>
+      <figure
+        className={`${styles.frame} ${isImageLoaded ? styles.frameLoaded : styles.frameLoading}`}
+        aria-busy={!isImageLoaded}
+      >
         <div className={styles.controls}>
           <button
             className={styles.iconButton}
@@ -75,7 +83,16 @@ export function ImageLightbox({ image, onClose, downloadName }: ImageLightboxPro
             <span className="sr-only">Cerrar foto ampliada</span>
           </button>
         </div>
-        <Image src={image.src} alt={image.alt} width={1600} height={1200} sizes="100vw" />
+        {!isImageLoaded && <span className={styles.loader} aria-hidden="true" />}
+        <Image
+          key={image.src}
+          src={image.src}
+          alt={image.alt}
+          width={1600}
+          height={1200}
+          sizes="100vw"
+          onLoad={() => setIsImageLoaded(true)}
+        />
       </figure>
     </div>
   )
