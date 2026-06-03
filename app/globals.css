@@ -240,7 +240,7 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 6rem 2.5rem 4rem;
+  padding: 6rem 2.5rem 2rem;
   position: relative;
   overflow: hidden;
   border-bottom: 3px solid var(--verde);
@@ -256,7 +256,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.5rem;
   position: relative;
   z-index: 1;
 }
@@ -1499,7 +1499,7 @@
 .edit-banner {
   background: var(--arena);
   border-bottom: var(--borde-grueso);
-  padding: 1.6rem 2.5rem;
+  padding: 1.35rem 2.5rem 1.45rem;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
