@@ -107,8 +107,20 @@
 }
 
 .photo:hover {
+  animation: photoHoverFloat 1.35s ease-in-out infinite;
   transform: translateY(-10px) rotate(var(--r)) scale(1.04);
   z-index: 80;
+}
+
+@keyframes photoHoverFloat {
+  0%,
+  100% {
+    transform: translateY(-10px) rotate(var(--r)) scale(1.04);
+  }
+
+  50% {
+    transform: translateY(-16px) rotate(calc(var(--r) + 1.4deg)) scale(1.055);
+  }
 }
 
 .photoButton {
@@ -290,5 +302,11 @@
   .lightboxControls {
     top: 0.75rem;
     right: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo:hover {
+    animation: none;
   }
 }
