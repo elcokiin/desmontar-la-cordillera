@@ -4,14 +4,6 @@ import { useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
 import { PullQuote } from "@/components/viaje/pull-quote"
 
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M8 5v14l11-7z" />
-    </svg>
-  )
-}
-
 function DiaSection({
   dia,
   abierto,
@@ -21,7 +13,7 @@ function DiaSection({
   abierto: boolean
   onToggle: () => void
 }) {
-  const tieneSidebar = dia.fotos.length > 0 || Boolean(dia.videoUrl)
+  const tieneSidebar = dia.fotos.length > 0 || Boolean(dia.videoId)
 
   return (
     <div className="dia-section">
@@ -80,20 +72,25 @@ function DiaSection({
                     <img src={f.src || "/placeholder.svg"} alt={f.alt} loading="lazy" />
                   </figure>
                 ))}
-                {dia.videoUrl && (
-                  <a
-                    className="video-placeholder"
-                    href={dia.videoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="play-circle">
-                      <PlayIcon />
+                {dia.videoId && (
+                  <figure className="dia-video">
+                    <div className="dia-video-marco">
+                      <iframe
+                        className="dia-video-iframe"
+                        src={`https://www.youtube.com/embed/${dia.videoId}?rel=0`}
+                        title={dia.videoLabel ?? "Video del día"}
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin"
+                        allowFullScreen
+                      />
                     </div>
-                    <span className="video-label">
-                      {dia.videoLabel ?? "Ver video en YouTube"}
-                    </span>
-                  </a>
+                    {dia.videoLabel && (
+                      <figcaption className="dia-video-pie">
+                        <span className="dia-video-rec" aria-hidden="true" />
+                        {dia.videoLabel}
+                      </figcaption>
+                    )}
+                  </figure>
                 )}
               </div>
             )}

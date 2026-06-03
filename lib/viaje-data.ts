@@ -24,7 +24,7 @@ export type Dia = {
   parrafos: string[]
   tags: Tag[]
   fotos: Foto[]
-  videoUrl?: string
+  videoId?: string
   videoLabel?: string
 }
 
@@ -107,8 +107,8 @@ export const dias: Dia[] = [
       { src: "/assets/Days/image1.png", alt: "Día 1 — corredor del altiplano al río Magdalena" },
       { src: "/assets/Days/image2.png", alt: "Día 1 — pescadores del río Magdalena en Honda", aspect: "1/1" },
     ],
-    videoUrl: "https://youtube.com/shorts/nIXdz-TmZ4Y?feature=share",
-    videoLabel: "Ver short del día 1 en YouTube",
+    videoId: "nIXdz-TmZ4Y",
+    videoLabel: "Bitácora en video — Día 1",
   },
   {
     numero: 2,
