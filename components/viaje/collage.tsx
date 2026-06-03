@@ -111,6 +111,7 @@ export function Collage() {
   const boardRef = useRef<HTMLDivElement>(null)
   const [seed, setSeed] = useState("cordillera-collage")
   const [isDownloading, setIsDownloading] = useState(false)
+  const [isDownloadingPhoto, setIsDownloadingPhoto] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState<LayoutPhoto | null>(null)
   const photos = useMemo(() => generateLayout(seed), [seed])
 
@@ -196,6 +197,25 @@ export function Collage() {
     }
   }
 
+  async function downloadPhoto(photo: LayoutPhoto) {
+    if (isDownloadingPhoto) return
+
+    setIsDownloadingPhoto(true)
+
+    try {
+      const response = await fetch(photo.src)
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.download = decodeURIComponent(photo.src.split("/").pop() ?? "foto-collage")
+      link.href = url
+      link.click()
+      URL.revokeObjectURL(url)
+    } finally {
+      setIsDownloadingPhoto(false)
+    }
+  }
+
   return (
     <section className={styles.section} id="collage" aria-labelledby="collage-title" ref={sectionRef}>
       <div className={styles.heading}>
@@ -266,10 +286,21 @@ export function Collage() {
         <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label="Foto ampliada">
           <button className={styles.lightboxBackdrop} type="button" onClick={() => setSelectedPhoto(null)} />
           <figure className={styles.lightboxFrame}>
-            <button className={styles.lightboxClose} type="button" onClick={() => setSelectedPhoto(null)}>
-              <X aria-hidden="true" size={22} />
-              <span className="sr-only">Cerrar foto ampliada</span>
-            </button>
+            <div className={styles.lightboxControls}>
+              <button
+                className={styles.lightboxIconButton}
+                type="button"
+                onClick={() => downloadPhoto(selectedPhoto)}
+                disabled={isDownloadingPhoto}
+              >
+                <Download aria-hidden="true" size={21} />
+                <span className="sr-only">Descargar foto ampliada</span>
+              </button>
+              <button className={styles.lightboxIconButton} type="button" onClick={() => setSelectedPhoto(null)}>
+                <X aria-hidden="true" size={22} />
+                <span className="sr-only">Cerrar foto ampliada</span>
+              </button>
+            </div>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={selectedPhoto.src} alt={selectedPhoto.alt} />
           </figure>
