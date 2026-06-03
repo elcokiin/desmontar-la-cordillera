@@ -1761,10 +1761,23 @@
   content: none;
 }
 .collage-photo:hover {
-  transform: rotate(var(--r)) scale(1.035);
+  transform: translateY(-10px) rotate(var(--r)) scale(1.04);
   z-index: 80;
 }
-.collage-photo img {
+.collage-photo-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+}
+.collage-photo-button:focus-visible {
+  outline: 3px solid var(--acento);
+  outline-offset: 4px;
+}
+.collage-photo-button img {
   width: 100%;
   height: auto;
   display: block;
@@ -1773,6 +1786,7 @@
 .collage-shape-rounded {
   border-radius: 10px;
 }
+.collage-shape-rounded .collage-photo-button,
 .collage-shape-rounded img {
   border-radius: 7px;
 }
@@ -1782,11 +1796,64 @@
 .collage-shape-soft {
   border-radius: 14px 6px 12px 8px;
 }
+.collage-shape-soft .collage-photo-button,
 .collage-shape-soft img {
   border-radius: 10px 4px 8px 5px;
 }
 .collage-shape-wide {
   border-radius: 5px;
+}
+.collage-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+}
+.collage-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgb(12 9 5 / 0.84);
+  cursor: zoom-out;
+}
+.collage-lightbox-frame {
+  position: relative;
+  z-index: 1;
+  max-width: min(94vw, 1120px);
+  max-height: 88vh;
+  margin: 0;
+  padding: 6px;
+  background: color-mix(in srgb, var(--blanco) 82%, var(--arena) 18%);
+  border: 2px solid var(--acento);
+  box-shadow: 12px 12px 0 rgb(0 0 0 / 0.38);
+}
+.collage-lightbox-frame img {
+  display: block;
+  width: auto;
+  max-width: calc(94vw - 2rem);
+  max-height: calc(88vh - 2rem);
+  object-fit: contain;
+}
+.collage-lightbox-close {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  z-index: 2;
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 2px solid var(--acento);
+  background: var(--negro);
+  color: var(--blanco);
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--arena);
+}
+.collage-lightbox-close:focus-visible {
+  outline: 3px solid var(--blanco);
+  outline-offset: 3px;
 }
 .collage-empty {
   display: grid;

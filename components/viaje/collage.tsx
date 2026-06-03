@@ -1,11 +1,11 @@
 "use client"
 
-import { useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Download, RefreshCcw } from "lucide-react"
+import { Download, RefreshCcw, X } from "lucide-react"
 import { toPng } from "html-to-image"
 
 import { collageImages } from "@/lib/collage-images"
@@ -103,6 +103,7 @@ export function Collage() {
   const boardRef = useRef<HTMLDivElement>(null)
   const [seed, setSeed] = useState("cordillera-collage")
   const [isDownloading, setIsDownloading] = useState(false)
+  const [selectedPhoto, setSelectedPhoto] = useState<LayoutPhoto | null>(null)
   const photos = useMemo(() => generateLayout(seed), [seed])
 
   useGSAP(
@@ -149,7 +150,21 @@ export function Collage() {
     { dependencies: [seed, photos.length], scope: sectionRef },
   )
 
+  useEffect(() => {
+    if (!selectedPhoto) return
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setSelectedPhoto(null)
+      }
+    }
+
+    window.addEventListener("keydown", closeOnEscape)
+    return () => window.removeEventListener("keydown", closeOnEscape)
+  }, [selectedPhoto])
+
   function refreshCollage() {
+    setSelectedPhoto(null)
     setSeed(`cordillera-${Date.now()}-${Math.random()}`)
   }
 
@@ -220,8 +235,15 @@ export function Collage() {
                 key={`${seed}-${photo.src}`}
                 style={style}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={photo.src} alt={photo.alt} loading={index < 6 ? "eager" : "lazy"} />
+                <button
+                  className="collage-photo-button"
+                  type="button"
+                  onClick={() => setSelectedPhoto(photo)}
+                  aria-label={`Ampliar ${photo.alt}`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={photo.src} alt={photo.alt} loading={index < 6 ? "eager" : "lazy"} />
+                </button>
               </figure>
             )
           })}
@@ -231,6 +253,20 @@ export function Collage() {
           <p>Agrega fotos en assets/images/collage y vuelve a ejecutar el proyecto.</p>
         </div>
       )}
+
+      {selectedPhoto ? (
+        <div className="collage-lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+          <button className="collage-lightbox-backdrop" type="button" onClick={() => setSelectedPhoto(null)} />
+          <figure className="collage-lightbox-frame">
+            <button className="collage-lightbox-close" type="button" onClick={() => setSelectedPhoto(null)}>
+              <X aria-hidden="true" size={22} />
+              <span className="sr-only">Cerrar foto ampliada</span>
+            </button>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={selectedPhoto.src} alt={selectedPhoto.alt} />
+          </figure>
+        </div>
+      ) : null}
     </section>
   )
 }
