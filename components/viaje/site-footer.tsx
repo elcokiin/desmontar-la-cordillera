@@ -1,11 +1,20 @@
 export function SiteFooter() {
   return (
     <footer className="viaje-footer">
-      <span className="footer-logo">Geografía Humana · UPTC</span>
-      <span>
-        Licenciatura en Ciencias Sociales &nbsp;·&nbsp; Geografía Humana &nbsp;·&nbsp; 2026
-      </span>
-      <span>Informe de salida de campo: Tunja - Urabá</span>
+      <blockquote className="footer-quote">
+        No estudiamos con él propósito de acumular conocimientos estáticos y sin contenido humano,
+        nuestra causa como estudiantes es la del conocimiento militante; refuta y transforma,
+        revoluciona la realidad social, política, cultural y científica, no sé engañen las clases
+        dominantes: somos una revolución, esa es nuestra bandera.
+        <cite>(José Revueltas, 1968)</cite>
+      </blockquote>
+      <div className="footer-meta">
+        <span className="footer-logo">Geografía Humana · UPTC</span>
+        <span>
+          Licenciatura en Ciencias Sociales &nbsp;·&nbsp; Geografía Humana &nbsp;·&nbsp; 2026
+        </span>
+        <span>Informe de salida de campo: Tunja - Urabá</span>
+      </div>
     </footer>
   )
 }
