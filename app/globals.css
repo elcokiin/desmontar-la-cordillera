@@ -1498,13 +1498,13 @@
 /* ---- BANNER EDICIÓN ---- */
 .edit-banner {
   background: var(--arena);
-  border-bottom: 3px solid var(--negro);
-  padding: 1.2rem 2.5rem;
+  border-bottom: var(--borde-grueso);
+  padding: 1.6rem 2.5rem;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
   font-family: var(--font-grotesk), sans-serif;
-  font-size: 0.9rem;
+  font-size: clamp(0.95rem, 1.5vw, 1.2rem);
   color: var(--negro);
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -1524,6 +1524,7 @@
   gap: 0.25rem;
 }
 .edit-quote p {
+  max-width: 960px;
   margin: 0;
   line-height: 1.45;
 }
@@ -1889,6 +1890,7 @@
     display: none;
   }
   .hero,
+  .edit-banner,
   .intro,
   .casa3d-section,
   .mapa-section,

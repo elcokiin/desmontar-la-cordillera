@@ -19,11 +19,11 @@ export default function Page() {
       {/* Cambia el color de acento (bordes, botones, líneas) según el scroll */}
       <ViajeTheme />
 
-      <EditBanner />
       <NavBar />
 
       <main>
         <Hero />
+        <EditBanner />
         <Intro />
         <CasaCafetera />
         <Transecto />
