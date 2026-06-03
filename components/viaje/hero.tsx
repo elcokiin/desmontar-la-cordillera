@@ -24,7 +24,7 @@ export function Hero() {
         apaga, la cordillera cede y el país desemboca de golpe en el calor del
         Golfo.
       </p>
-      <div className="hero-stats">
+      <div className="hero-stats p-6">
         {heroStats.map((s) => (
           <div key={s.lbl}>
             <span className="hero-stat-num">{s.num}</span>
