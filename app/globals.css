@@ -1445,7 +1445,7 @@
 
 /* ---- FOOTER ---- */
 .viaje-footer {
-  padding: 4rem 2.5rem;
+  padding: clamp(4rem, 8vw, 7rem) 2.5rem 3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1455,34 +1455,71 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  background: var(--negro);
-  gap: 1rem;
-  flex-wrap: wrap;
+  background:
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--verde) 24%, transparent) 0 1px,
+      transparent 1px 100%
+    ),
+    var(--gris-tarjeta);
+  background-size: 72px 100%;
+  border-top: 3px solid var(--acento);
+  gap: 2rem;
 }
 .footer-quote {
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-  padding: 1.5rem 0 0 1.5rem;
-  border-left: 5px solid var(--acento);
+  width: min(100%, 1180px);
+  margin: 0 auto 1rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
   color: var(--blanco);
   font-family: var(--font-grotesk), sans-serif;
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  line-height: 1.55;
   letter-spacing: 0;
   text-transform: none;
 }
+.footer-quote-mark {
+  margin-top: -0.2em;
+  font-family: var(--font-bebas), sans-serif;
+  font-size: clamp(7rem, 16vw, 14rem);
+  line-height: 0.75;
+  color: var(--acento);
+  text-shadow: 7px 7px 0 var(--negro);
+}
+.footer-quote p {
+  max-width: 980px;
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  text-wrap: balance;
+}
 .footer-quote cite {
-  display: block;
-  margin-top: 1rem;
-  color: var(--arena);
+  display: inline-block;
+  margin-top: 1.25rem;
+  padding: 0.35rem 0.75rem;
+  background: var(--acento);
+  color: var(--negro);
+  border: 2px solid var(--negro);
+  box-shadow: 4px 4px 0 var(--negro);
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
   font-style: normal;
 }
 .footer-meta {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding-top: 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
+  border-top: 1px solid color-mix(in srgb, var(--blanco) 18%, transparent);
+  color: color-mix(in srgb, var(--blanco) 76%, transparent);
 }
 .footer-logo {
   font-family: var(--font-bebas), sans-serif;
@@ -1751,8 +1788,12 @@
     text-align: center;
   }
   .footer-quote {
-    padding-left: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
     text-align: left;
+  }
+  .footer-quote-mark {
+    font-size: 6rem;
   }
   .footer-meta {
     flex-direction: column;

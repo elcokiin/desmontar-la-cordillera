@@ -2,11 +2,18 @@ export function SiteFooter() {
   return (
     <footer className="viaje-footer">
       <blockquote className="footer-quote">
-        No estudiamos con él propósito de acumular conocimientos estáticos y sin contenido humano,
-        nuestra causa como estudiantes es la del conocimiento militante; refuta y transforma,
-        revoluciona la realidad social, política, cultural y científica, no sé engañen las clases
-        dominantes: somos una revolución, esa es nuestra bandera.
-        <cite>(José Revueltas, 1968)</cite>
+        <span className="footer-quote-mark" aria-hidden="true">
+          “
+        </span>
+        <div>
+          <p>
+            No estudiamos con él propósito de acumular conocimientos estáticos y sin contenido
+            humano, nuestra causa como estudiantes es la del conocimiento militante; refuta y
+            transforma, revoluciona la realidad social, política, cultural y científica, no sé
+            engañen las clases dominantes: somos una revolución, esa es nuestra bandera.
+          </p>
+          <cite>José Revueltas, 1968</cite>
+        </div>
       </blockquote>
       <div className="footer-meta">
         <span className="footer-logo">Geografía Humana · UPTC</span>
