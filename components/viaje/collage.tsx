@@ -12,26 +12,31 @@ import { collageImages } from "@/lib/collage-images"
 
 gsap.registerPlugin(ScrollTrigger)
 
-const PHOTO_COUNT = 17
-const shapes = ["classic", "rounded", "ticket", "soft", "oval"] as const
+const PHOTO_COUNT = 22
+const shapes = ["classic", "rounded", "ticket", "soft", "wide"] as const
 const anchors = [
-  [4, 7, 24],
-  [22, 3, 19],
-  [42, 8, 25],
-  [66, 3, 20],
-  [78, 18, 18],
-  [9, 31, 21],
-  [30, 27, 27],
-  [55, 31, 22],
-  [72, 39, 26],
-  [2, 54, 25],
-  [24, 55, 20],
-  [43, 52, 26],
-  [63, 60, 20],
-  [82, 61, 18],
-  [12, 74, 20],
-  [36, 76, 21],
-  [58, 78, 28],
+  [0, 1, 27],
+  [16, 4, 24],
+  [34, 0, 28],
+  [57, 3, 25],
+  [76, 2, 25],
+  [6, 20, 23],
+  [25, 18, 29],
+  [48, 19, 26],
+  [68, 20, 29],
+  [86, 24, 22],
+  [0, 40, 28],
+  [19, 40, 25],
+  [41, 39, 30],
+  [63, 43, 25],
+  [79, 43, 27],
+  [7, 62, 27],
+  [28, 63, 24],
+  [48, 61, 28],
+  [70, 64, 25],
+  [86, 66, 22],
+  [17, 79, 27],
+  [55, 80, 30],
 ] as const
 
 type LayoutPhoto = {
@@ -78,15 +83,15 @@ function generateLayout(seed: string): LayoutPhoto[] {
 
   return pool.slice(0, Math.min(PHOTO_COUNT, pool.length)).map((image, index) => {
     const anchor = anchors[index % anchors.length]
-    const wide = anchor[2] + (random() - 0.5) * 5
+    const wide = anchor[2] + (random() - 0.5) * 4
 
     return {
       ...image,
-      x: anchor[0] + (random() - 0.5) * 6,
-      y: anchor[1] + (random() - 0.5) * 6,
+      x: anchor[0] + (random() - 0.5) * 4,
+      y: anchor[1] + (random() - 0.5) * 4,
       width: wide,
-      rotation: -15 + random() * 30,
-      zIndex: 10 + Math.floor(random() * 35) + index,
+      rotation: -11 + random() * 22,
+      zIndex: 10 + Math.floor(random() * 25) + index,
       shape: shapes[Math.floor(random() * shapes.length)],
       tone: random(),
     }
