@@ -47,6 +47,28 @@ export function RadioBus() {
 
   const alternar = () => setEncendida((v) => !v)
 
+  useEffect(() => {
+    const alPresionarTecla = (evento: KeyboardEvent) => {
+      if (evento.defaultPrevented || evento.repeat || !hayCanciones) return
+
+      const objetivo = evento.target as HTMLElement | null
+      const esControlInteractivo = objetivo?.closest(
+        'input, textarea, select, button, a, [contenteditable="true"], [role="button"], [role="textbox"]',
+      )
+      if (esControlInteractivo) return
+
+      const tecla = evento.key.toLowerCase()
+      if (tecla !== " " && tecla !== "spacebar" && tecla !== "m") return
+
+      evento.preventDefault()
+      setDialogoAbierto(false)
+      setEncendida((valorActual) => !valorActual)
+    }
+
+    window.addEventListener("keydown", alPresionarTecla)
+    return () => window.removeEventListener("keydown", alPresionarTecla)
+  }, [hayCanciones])
+
   const siguiente = () => {
     if (!hayCanciones) return
     setIndice((i) => (i + 1) % PLAYLIST.length)
