@@ -153,6 +153,51 @@
   overflow-x: hidden;
 }
 
+html,
+.viaje-root,
+.viaje-root * {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--acento) 78%, var(--arena)) color-mix(in srgb, var(--negro) 88%, var(--verde));
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+.viaje-root *::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track,
+.viaje-root *::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--negro) 88%, var(--verde));
+  border: 2px solid var(--negro);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb,
+.viaje-root *::-webkit-scrollbar-thumb {
+  min-height: 44px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--acento) 86%, var(--arena)),
+      color-mix(in srgb, var(--verde) 80%, var(--azul))
+    );
+  border: 3px solid var(--negro);
+  border-radius: 999px;
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover,
+.viaje-root *::-webkit-scrollbar-thumb:hover {
+  background: var(--arena);
+}
+
+.viaje-root *::-webkit-scrollbar-corner {
+  background: var(--negro);
+}
+
 .viaje-root .font-bebas {
   font-family: var(--font-bebas), sans-serif;
 }
@@ -1262,8 +1307,9 @@
 .mapa-leyenda-lista {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 0 0.35rem 0 0;
   overflow-y: auto;
+  scrollbar-gutter: stable;
   flex: 1;
 }
 .mapa-leyenda-item {
