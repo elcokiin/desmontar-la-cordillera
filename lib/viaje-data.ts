@@ -64,7 +64,7 @@ export const introCards = [
   { num: "3", lbl: "Pisos térmicos" },
   { num: "3", lbl: "Departamentos clave" },
   { num: "+100", lbl: "Picaduras en Urabá" },
-  { num: "∞", lbl: "Relatos a ras de suelo" },
+  { num: "1", lbl: "Relatos de amor en el bus" },
 ]
 
 export const introParrafos = [
