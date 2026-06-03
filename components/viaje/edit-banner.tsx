@@ -22,7 +22,10 @@ export function EditBanner() {
           aquí hay un pueblo digno. Ha llegado el tiempo de los pueblos."
         </p>
         <cite>Aída Marina Quilcué</cite>
-        <span>Con el cambio en segunda vuelta.</span>
+        <span className="edit-secret" aria-hidden="true">
+          <span>Continuemos con el cambio</span>
+          <span>en segunda vuelta.</span>
+        </span>
       </blockquote>
     </div>
   )
