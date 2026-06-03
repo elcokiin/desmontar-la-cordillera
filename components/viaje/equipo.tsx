@@ -7,8 +7,11 @@ export function Equipo() {
       <h2>Los Expedicionarios</h2>
       <div className="equipo-grid">
         {equipo.map((p) => (
-          <div className="equipo-card" key={p.avatar}>
-            <div className="equipo-avatar">{p.avatar}</div>
+          <div className="equipo-card" key={p.nombre}>
+            <div className="equipo-avatar">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={p.foto || "/placeholder-user.jpg"} alt={`Retrato de ${p.nombre}`} />
+            </div>
             <div>
               <span className="equipo-nombre">{p.nombre}</span>
               <span className="equipo-rol">{p.rol}</span>

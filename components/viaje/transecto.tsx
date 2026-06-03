@@ -4,22 +4,6 @@ import { useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
 import { PullQuote } from "@/components/viaje/pull-quote"
 
-function FotoIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      aria-hidden="true"
-    >
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <circle cx="8.5" cy="8.5" r="1.5" />
-      <path d="M21 15l-5-5L5 21" />
-    </svg>
-  )
-}
-
 function PlayIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -37,6 +21,8 @@ function DiaSection({
   abierto: boolean
   onToggle: () => void
 }) {
+  const tieneSidebar = dia.fotos.length > 0 || Boolean(dia.videoUrl)
+
   return (
     <div className="dia-section">
       <button
@@ -59,9 +45,9 @@ function DiaSection({
 
       {abierto && (
         <div className="dia-content" id={`dia-content-${dia.numero}`}>
-          <div className="dia-body">
+          <div className={`dia-body${tieneSidebar ? "" : " dia-body-solo"}`}>
             <div className="dia-texto">
-              <p className="frase">{dia.frase}</p>
+              {dia.frase && <p className="frase">{dia.frase}</p>}
               {dia.parrafos.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
@@ -82,34 +68,35 @@ function DiaSection({
               </div>
             </div>
 
-            <div className="dia-sidebar">
-              {dia.fotos.map((f, i) => (
-                <div
-                  className="foto-placeholder"
-                  key={i}
-                  style={f.aspect ? { aspectRatio: f.aspect } : undefined}
-                >
-                  <FotoIcon />
-                  {f.label}
-                </div>
-              ))}
-              <div className="video-placeholder">
-                <div className="play-circle">
-                  <PlayIcon />
-                </div>
-                <span className="video-label">
-                  {dia.videoLabel}
-                  {dia.videoNota && (
-                    <>
-                      <br />
-                      <span style={{ color: "#dfb3c1b3", fontSize: "0.7rem" }}>
-                        {dia.videoNota}
-                      </span>
-                    </>
-                  )}
-                </span>
+            {tieneSidebar && (
+              <div className="dia-sidebar">
+                {dia.fotos.map((f, i) => (
+                  <figure
+                    className="dia-foto"
+                    key={i}
+                    style={f.aspect ? { aspectRatio: f.aspect } : undefined}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={f.src || "/placeholder.svg"} alt={f.alt} loading="lazy" />
+                  </figure>
+                ))}
+                {dia.videoUrl && (
+                  <a
+                    className="video-placeholder"
+                    href={dia.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="play-circle">
+                      <PlayIcon />
+                    </div>
+                    <span className="video-label">
+                      {dia.videoLabel ?? "Ver video en YouTube"}
+                    </span>
+                  </a>
+                )}
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}

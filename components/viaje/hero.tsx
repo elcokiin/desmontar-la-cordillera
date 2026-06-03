@@ -18,9 +18,11 @@ export function Hero() {
         <strong>RELATOS DE RUANA, ASFALTO Y BANANO.</strong>
         <br />
         <br />
-        Siete días descendiendo por las grietas de Cundinamarca y Antioquia para
-        entender qué pasa con la tierra y la gente cuando el frío de Tunja se
-        rinde ante el calor del Urabá.
+        De la cuna del <em>sumercé</em> a la tierra del banano y el plátano. Un
+        transecto de siete días por las venas del noroccidente colombiano: una
+        bitácora viva para leer el mapa y a su gente, justo cuando el frío se
+        apaga, la cordillera cede y el país desemboca de golpe en el calor del
+        Golfo.
       </p>
       <div className="hero-stats">
         {heroStats.map((s) => (

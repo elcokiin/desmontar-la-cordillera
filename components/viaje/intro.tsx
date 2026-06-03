@@ -1,4 +1,4 @@
-import { introCards } from "@/lib/viaje-data"
+import { introCards, introParrafos } from "@/lib/viaje-data"
 
 export function Intro() {
   return (
@@ -6,12 +6,9 @@ export function Intro() {
       <div className="intro-left">
         <p className="intro-label">Sobre la salida</p>
         <h2>¿Por qué salimos del aula?</h2>
-        <p>
-          [Escribe aquí una introducción de 2-3 párrafos sobre el propósito
-          académico de la salida de campo. ¿Qué preguntas buscaban responder?
-          ¿Qué teorías geográficas pusieron a prueba? ¿Qué regiones recorrieron y
-          por qué esas y no otras?]
-        </p>
+        {introParrafos.map((p, i) => (
+          <p key={i}>{p}</p>
+        ))}
       </div>
       <div className="intro-right">
         {introCards.map((c) => (

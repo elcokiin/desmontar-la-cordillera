@@ -5,6 +5,7 @@ import { Intro } from "@/components/viaje/intro"
 import { CasaCafetera } from "@/components/viaje/casa-cafetera"
 import { Transecto } from "@/components/viaje/transecto"
 import { Mapa } from "@/components/viaje/mapa"
+import { Collage } from "@/components/viaje/collage"
 import { Reflexiones } from "@/components/viaje/reflexiones"
 import { Equipo } from "@/components/viaje/equipo"
 import { SiteFooter } from "@/components/viaje/site-footer"
@@ -27,6 +28,7 @@ export default function Page() {
         <CasaCafetera />
         <Transecto />
         <Mapa />
+        <Collage />
         <Reflexiones />
         <Equipo />
       </main>
