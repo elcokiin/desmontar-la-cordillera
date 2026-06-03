@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Radio, Pause, SkipForward } from "lucide-react"
+import { Radio, Play, SkipForward, Square } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -117,8 +117,9 @@ export function RadioBus() {
         <Button
           onClick={encendida ? alternar : encender}
           disabled={!hayCanciones}
+          aria-label={encendida ? "Apagar la radio del bus" : "Encender la radio del bus"}
           className={
-            "rounded-none border-2 font-bold uppercase tracking-wide " +
+            "radio-fab-main rounded-none border-2 font-bold uppercase tracking-wide " +
             (encendida
               ? "border-[var(--negro)] bg-[var(--arena)] text-[var(--negro)] hover:bg-[var(--arena)]/90"
               : "border-[var(--acento)] bg-[var(--negro)] text-[var(--blanco)] hover:bg-[var(--gris-tarjeta)]")
@@ -126,13 +127,13 @@ export function RadioBus() {
         >
           {encendida ? (
             <>
-              <Pause className="size-4" />
-              Radio encendida
+              <Square className="size-4 shrink-0 fill-current" />
+              <span className="radio-fab-label">Apagar la radio del bus</span>
             </>
           ) : (
             <>
-              <Radio className="size-4" />
-              Encender la radio del bus
+              <Play className="size-4 shrink-0 fill-current" />
+              <span className="radio-fab-label">Encender la radio del bus</span>
             </>
           )}
         </Button>

@@ -1582,6 +1582,45 @@
   z-index: 95;
 }
 
+.radio-fab-main {
+  width: 2.75rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+  padding-left: 0;
+  padding-right: 0;
+  transition:
+    width 0.22s ease,
+    gap 0.22s ease,
+    padding 0.22s ease,
+    background-color 0.2s ease;
+}
+
+.radio-fab-main:hover,
+.radio-fab-main:focus-visible {
+  width: 15.5rem;
+  gap: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.radio-fab-label {
+  max-width: 0;
+  white-space: nowrap;
+  opacity: 0;
+  transition:
+    max-width 0.22s ease,
+    opacity 0.14s ease;
+}
+
+.radio-fab-main:hover .radio-fab-label,
+.radio-fab-main:focus-visible .radio-fab-label {
+  max-width: 13rem;
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .intro {
     grid-template-columns: 1fr;
