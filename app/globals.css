@@ -1363,14 +1363,13 @@
   border-bottom: 3px solid var(--negro);
   padding: 1.2rem 2.5rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 1rem;
   font-family: var(--font-grotesk), sans-serif;
   font-size: 0.9rem;
   color: var(--negro);
   font-weight: 700;
   letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 .edit-dot {
   width: 12px;
@@ -1379,6 +1378,24 @@
   border: 2px solid var(--negro);
   flex-shrink: 0;
   animation: viajePulse 1.5s infinite;
+  margin-top: 0.25rem;
+}
+.edit-quote {
+  margin: 0;
+  display: grid;
+  gap: 0.25rem;
+}
+.edit-quote p {
+  margin: 0;
+  line-height: 1.45;
+}
+.edit-quote cite,
+.edit-quote span {
+  display: block;
+  font-size: 0.78rem;
+  font-style: normal;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 @keyframes viajePulse {
   0%,
