@@ -1949,7 +1949,21 @@
   box-shadow: 6px 6px 0px var(--acento);
   overflow: hidden;
 }
-.dia-foto img {
+.dia-foto-button {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: zoom-in;
+}
+.dia-foto-button:focus-visible {
+  outline: 3px solid var(--arena);
+  outline-offset: -6px;
+}
+.dia-foto-button img {
   width: 100%;
   height: 100%;
   object-fit: cover;

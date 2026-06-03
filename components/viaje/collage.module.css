@@ -171,85 +171,6 @@
   border-radius: 5px;
 }
 
-.lightbox {
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  display: grid;
-  place-items: center;
-  padding: clamp(1rem, 4vw, 3rem);
-}
-
-.lightboxBackdrop {
-  position: absolute;
-  inset: 0;
-  border: 0;
-  background: rgb(12 9 5 / 0.84);
-  cursor: zoom-out;
-}
-
-.lightboxFrame {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  width: fit-content;
-  max-width: 94vw;
-  height: fit-content;
-  max-height: 88vh;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 6px;
-  box-sizing: border-box;
-  background: color-mix(in srgb, var(--blanco) 82%, var(--arena) 18%);
-  border: 2px solid var(--acento);
-  box-shadow: 12px 12px 0 rgb(0 0 0 / 0.38);
-}
-
-.lightboxFrame img {
-  display: block;
-  width: auto;
-  height: auto;
-  max-width: min(1120px, calc(94vw - 12px));
-  max-height: calc(88vh - 12px);
-  object-fit: contain;
-}
-
-.lightboxControls {
-  position: absolute;
-  top: -1rem;
-  right: -1rem;
-  z-index: 2;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.lightboxIconButton {
-  display: inline-grid;
-  width: 44px;
-  height: 44px;
-  place-items: center;
-  border: 2px solid var(--acento);
-  background: var(--negro);
-  color: var(--blanco);
-  cursor: pointer;
-  box-shadow: 4px 4px 0 var(--arena);
-}
-
-.lightboxIconButton:hover:not(:disabled) {
-  transform: translate(-2px, -2px);
-}
-
-.lightboxIconButton:disabled {
-  cursor: wait;
-  opacity: 0.65;
-}
-
-.lightboxIconButton:focus-visible {
-  outline: 3px solid var(--blanco);
-  outline-offset: 3px;
-}
-
 .empty {
   display: grid;
   min-height: 320px;
@@ -297,11 +218,6 @@
 
   .photo {
     width: clamp(112px, calc(var(--w) * 1.65), 220px);
-  }
-
-  .lightboxControls {
-    top: 0.75rem;
-    right: 0.75rem;
   }
 }
 

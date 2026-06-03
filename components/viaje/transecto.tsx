@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
+import { ImageLightbox, type LightboxImage } from "@/components/viaje/image-lightbox"
 import { PullQuote } from "@/components/viaje/pull-quote"
 import { VideoCorto } from "@/components/viaje/video-corto"
 
@@ -9,10 +10,12 @@ function DiaSection({
   dia,
   abierto,
   onToggle,
+  onSelectPhoto,
 }: {
   dia: Dia
   abierto: boolean
   onToggle: () => void
+  onSelectPhoto: (photo: LightboxImage) => void
 }) {
   const tieneSidebar = dia.fotos.length > 0 || Boolean(dia.videoId)
 
@@ -66,11 +69,18 @@ function DiaSection({
                 {dia.fotos.map((f, i) => (
                   <figure
                     className="dia-foto"
-                    key={i}
+                    key={f.src}
                     style={f.aspect ? { aspectRatio: f.aspect } : undefined}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={f.src || "/placeholder.svg"} alt={f.alt} loading="lazy" />
+                    <button
+                      className="dia-foto-button"
+                      type="button"
+                      onClick={() => onSelectPhoto(f)}
+                      aria-label={`Ampliar ${f.alt}`}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={f.src || "/placeholder.svg"} alt={f.alt} loading="lazy" />
+                    </button>
                   </figure>
                 ))}
                 {dia.videoId && (
@@ -89,6 +99,7 @@ export function Transecto() {
   // El día 1 inicia abierto y activo, igual que en el HTML original.
   const [abiertos, setAbiertos] = useState<Set<number>>(() => new Set([1]))
   const [activo, setActivo] = useState(1)
+  const [selectedPhoto, setSelectedPhoto] = useState<LightboxImage | null>(null)
 
   const toggleDia = (n: number) => {
     setAbiertos((prev) => {
@@ -151,6 +162,7 @@ export function Transecto() {
             dia={dia}
             abierto={abiertos.has(dia.numero)}
             onToggle={() => toggleDia(dia.numero)}
+            onSelectPhoto={setSelectedPhoto}
           />
         ))}
 
@@ -162,9 +174,12 @@ export function Transecto() {
             dia={dia}
             abierto={abiertos.has(dia.numero)}
             onToggle={() => toggleDia(dia.numero)}
+            onSelectPhoto={setSelectedPhoto}
           />
         ))}
       </div>
+
+      <ImageLightbox image={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
     </>
   )
 }

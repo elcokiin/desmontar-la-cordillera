@@ -1,14 +1,15 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useMemo, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Download, RefreshCcw, X } from "lucide-react"
+import { Download, RefreshCcw } from "lucide-react"
 import { toPng } from "html-to-image"
 
 import { collageImages } from "@/lib/collage-images"
+import { ImageLightbox } from "@/components/viaje/image-lightbox"
 import styles from "./collage.module.css"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -111,7 +112,6 @@ export function Collage() {
   const boardRef = useRef<HTMLDivElement>(null)
   const [seed, setSeed] = useState("cordillera-collage")
   const [isDownloading, setIsDownloading] = useState(false)
-  const [isDownloadingPhoto, setIsDownloadingPhoto] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState<LayoutPhoto | null>(null)
   const photos = useMemo(() => generateLayout(seed), [seed])
 
@@ -159,19 +159,6 @@ export function Collage() {
     { dependencies: [seed, photos.length], scope: sectionRef },
   )
 
-  useEffect(() => {
-    if (!selectedPhoto) return
-
-    function closeOnEscape(event: KeyboardEvent) {
-      if (event.key === "Escape") {
-        setSelectedPhoto(null)
-      }
-    }
-
-    window.addEventListener("keydown", closeOnEscape)
-    return () => window.removeEventListener("keydown", closeOnEscape)
-  }, [selectedPhoto])
-
   function refreshCollage() {
     setSelectedPhoto(null)
     setSeed(`cordillera-${Date.now()}-${Math.random()}`)
@@ -194,25 +181,6 @@ export function Collage() {
       link.click()
     } finally {
       setIsDownloading(false)
-    }
-  }
-
-  async function downloadPhoto(photo: LayoutPhoto) {
-    if (isDownloadingPhoto) return
-
-    setIsDownloadingPhoto(true)
-
-    try {
-      const response = await fetch(photo.src)
-      const blob = await response.blob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.download = decodeURIComponent(photo.src.split("/").pop() ?? "foto-collage")
-      link.href = url
-      link.click()
-      URL.revokeObjectURL(url)
-    } finally {
-      setIsDownloadingPhoto(false)
     }
   }
 
@@ -282,30 +250,7 @@ export function Collage() {
         </div>
       )}
 
-      {selectedPhoto ? (
-        <div className={styles.lightbox} role="dialog" aria-modal="true" aria-label="Foto ampliada">
-          <button className={styles.lightboxBackdrop} type="button" onClick={() => setSelectedPhoto(null)} />
-          <figure className={styles.lightboxFrame}>
-            <div className={styles.lightboxControls}>
-              <button
-                className={styles.lightboxIconButton}
-                type="button"
-                onClick={() => downloadPhoto(selectedPhoto)}
-                disabled={isDownloadingPhoto}
-              >
-                <Download aria-hidden="true" size={21} />
-                <span className="sr-only">Descargar foto ampliada</span>
-              </button>
-              <button className={styles.lightboxIconButton} type="button" onClick={() => setSelectedPhoto(null)}>
-                <X aria-hidden="true" size={22} />
-                <span className="sr-only">Cerrar foto ampliada</span>
-              </button>
-            </div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={selectedPhoto.src} alt={selectedPhoto.alt} />
-          </figure>
-        </div>
-      ) : null}
+      <ImageLightbox image={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
     </section>
   )
 }
