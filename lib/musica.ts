@@ -7,6 +7,7 @@
 export const CARPETA_MUSICA = "/musica"
 
 export const PLAYLIST: string[] = [
+  "cepeda.mp3",
   "amanecer.mp3",
   "vida.mp3",
   "sueno.mp3",
