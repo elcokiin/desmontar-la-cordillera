@@ -12,6 +12,7 @@ import { SiteFooter } from "@/components/viaje/site-footer"
 import { Altimetro } from "@/components/viaje/altimetro"
 import { RadioBus } from "@/components/viaje/radio-bus"
 import { ViajeTheme } from "@/components/viaje/viaje-theme"
+import { ImagePreloader } from "@/components/viaje/image-preloader"
 
 export default function Page() {
   return (
@@ -36,6 +37,7 @@ export default function Page() {
       <SiteFooter />
 
       {/* Paneles flotantes */}
+      <ImagePreloader />
       <Altimetro />
       <RadioBus />
     </div>

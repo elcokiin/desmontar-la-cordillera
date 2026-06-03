@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useMemo, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import { useGSAP } from "@gsap/react"
@@ -237,8 +238,15 @@ export function Collage() {
                   onClick={() => setSelectedPhoto(photo)}
                   aria-label={`Ampliar ${photo.alt}`}
                 >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={photo.src} alt={photo.alt} loading={index < 6 ? "eager" : "lazy"} />
+                  <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    width={430}
+                    height={320}
+                    loading={index < 4 ? "eager" : "lazy"}
+                    fetchPriority={index < 4 ? "low" : "auto"}
+                    sizes="(max-width: 560px) 220px, (max-width: 900px) 280px, 430px"
+                  />
                 </button>
               </figure>
             )

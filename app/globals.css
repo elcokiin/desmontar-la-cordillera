@@ -1434,6 +1434,7 @@
   transform: translate(-3px, -3px);
 }
 .equipo-avatar {
+  position: relative;
   width: 60px;
   height: 60px;
   background: var(--arena);

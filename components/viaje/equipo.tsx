@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { equipo } from "@/lib/viaje-data"
 
 export function Equipo() {
@@ -9,8 +10,13 @@ export function Equipo() {
         {equipo.map((p) => (
           <div className="equipo-card" key={p.nombre}>
             <div className="equipo-avatar">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.foto || "/placeholder-user.jpg"} alt={`Retrato de ${p.nombre}`} />
+              <Image
+                src={p.foto || "/placeholder-user.jpg"}
+                alt={`Retrato de ${p.nombre}`}
+                fill
+                loading="lazy"
+                sizes="(max-width: 760px) 128px, 160px"
+              />
             </div>
             <div>
               <span className="equipo-nombre">{p.nombre}</span>

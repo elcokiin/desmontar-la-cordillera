@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState } from "react"
 import type { CSSProperties, KeyboardEvent, MouseEvent, PointerEvent } from "react"
 
@@ -76,7 +77,14 @@ export function HeroPhoto() {
     >
       <span className="hero-image-depth" aria-hidden="true" />
       <span className="hero-image-stage">
-        <img src="/assets/hero/cordillera-hero.png" alt="Grupo reunido con la Comunidad de Paz" />
+        <Image
+          src="/assets/hero/cordillera-hero.png"
+          alt="Grupo reunido con la Comunidad de Paz"
+          fill
+          preload
+          fetchPriority="high"
+          sizes="(max-width: 900px) 100vw, 640px"
+        />
       </span>
     </figure>
   )

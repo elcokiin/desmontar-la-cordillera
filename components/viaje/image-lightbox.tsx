@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useEffect, useState } from "react"
 import { Download, X } from "lucide-react"
 
@@ -74,8 +75,7 @@ export function ImageLightbox({ image, onClose, downloadName }: ImageLightboxPro
             <span className="sr-only">Cerrar foto ampliada</span>
           </button>
         </div>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image.src} alt={image.alt} />
+        <Image src={image.src} alt={image.alt} width={1600} height={1200} sizes="100vw" />
       </figure>
     </div>
   )

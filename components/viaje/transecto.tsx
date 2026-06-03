@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
 import { ImageLightbox, type LightboxImage } from "@/components/viaje/image-lightbox"
@@ -78,8 +79,13 @@ function DiaSection({
                       onClick={() => onSelectPhoto(f)}
                       aria-label={`Ampliar ${f.alt}`}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={f.src || "/placeholder.svg"} alt={f.alt} loading="lazy" />
+                      <Image
+                        src={f.src || "/placeholder.svg"}
+                        alt={f.alt}
+                        fill
+                        loading="lazy"
+                        sizes="(max-width: 900px) 100vw, 380px"
+                      />
                     </button>
                   </figure>
                 ))}
