@@ -272,10 +272,10 @@ export const reflexiones: Reflexion[] = [
 ]
 
 export const equipo: Integrante[] = [
+  { foto: "/assets/Expedicionarios/maleja.jpg", nombre: "Maleja", rol: "Geografía Humana" },
   { foto: "/assets/Expedicionarios/dayis.png", nombre: "Dayis", rol: "Geografía Humana" },
   { foto: "/assets/Expedicionarios/duvancho.jpg", nombre: "Duván", rol: "Geografía Humana" },
   { foto: "/assets/Expedicionarios/maicol.jpg", nombre: "Maicol", rol: "Geografía Humana" },
-  { foto: "/assets/Expedicionarios/maleja.jpg", nombre: "Maleja", rol: "Geografía Humana" },
   { foto: "/assets/Expedicionarios/mar.jpg", nombre: "Mar", rol: "Geografía Humana" },
 ]
 
