@@ -1592,8 +1592,8 @@
   padding-left: 0.875rem;
   padding-right: 0.875rem;
   transition:
-    width 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 520ms ease;
+    width 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 850ms ease;
 }
 
 .radio-fab-main:hover,
@@ -1606,8 +1606,8 @@
   white-space: nowrap;
   opacity: 0;
   transition:
-    max-width 520ms cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 420ms ease;
+    max-width 850ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 650ms ease;
 }
 
 .radio-fab-main:hover .radio-fab-label,
