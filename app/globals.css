@@ -185,6 +185,17 @@
   background: var(--negro);
   border-bottom: var(--borde-grueso);
 }
+/* Barra de progreso de lectura sobre el borde inferior del header */
+.nav-progreso {
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 4px;
+  background: var(--acento);
+  box-shadow: 0 0 10px var(--acento);
+  transition: width 0.12s linear;
+  z-index: 1;
+}
 .nav-logo {
   display: inline-flex;
   align-items: center;

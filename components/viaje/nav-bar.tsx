@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
 
 const enlaces = [
   { href: "#dias", label: "Días" },
@@ -10,6 +11,28 @@ const enlaces = [
 ]
 
 export function NavBar() {
+  // Barra de progreso de lectura: arranca en 10% y se completa al llegar al final del scroll.
+  const [progreso, setProgreso] = useState(10)
+
+  useEffect(() => {
+    function actualizarProgreso() {
+      const doc = document.documentElement
+      const altoScrollable = doc.scrollHeight - window.innerHeight
+      const ratio = altoScrollable > 0 ? window.scrollY / altoScrollable : 0
+      const acotado = Math.min(1, Math.max(0, ratio))
+      // Mapea 0 -> 10% y 1 -> 100%
+      setProgreso(10 + acotado * 90)
+    }
+
+    actualizarProgreso()
+    window.addEventListener("scroll", actualizarProgreso, { passive: true })
+    window.addEventListener("resize", actualizarProgreso)
+    return () => {
+      window.removeEventListener("scroll", actualizarProgreso)
+      window.removeEventListener("resize", actualizarProgreso)
+    }
+  }, [])
+
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     // Solo interceptamos anclas internas
     if (!href.startsWith("#")) return
@@ -67,6 +90,15 @@ export function NavBar() {
           </li>
         ))}
       </ul>
+      <div
+        className="nav-progreso"
+        style={{ width: `${progreso}%` }}
+        role="progressbar"
+        aria-label="Progreso de lectura"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(progreso)}
+      />
     </nav>
   )
 }
