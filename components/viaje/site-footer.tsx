@@ -32,6 +32,7 @@ export function SiteFooter() {
           <span>El código de la página lo pueden encontrar aquí:</span>
           <Github aria-hidden="true" size={18} />
           <strong>github elcokiin</strong>
+          <span>colaborador Diego Tenjo ING Sistemas UPTC.</span>
         </a>
       </div>
     </footer>
