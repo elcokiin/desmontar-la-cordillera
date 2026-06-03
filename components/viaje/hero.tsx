@@ -7,7 +7,7 @@ export function Hero() {
         URABÁ
       </div>
       <p className="hero-meta">
-        Geografía Humana de Colombia &nbsp;·&nbsp; [Universidad] &nbsp;·&nbsp; [Año]
+        Geografía Humana de Colombia &nbsp;·&nbsp; UPTC &nbsp;·&nbsp; 2026
       </p>
       <h1>
         Desmontar la
