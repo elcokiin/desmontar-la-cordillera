@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { dias, paradas, type Dia } from "@/lib/viaje-data"
 import { PullQuote } from "@/components/viaje/pull-quote"
+import { VideoCorto } from "@/components/viaje/video-corto"
 
 function DiaSection({
   dia,
@@ -73,24 +74,7 @@ function DiaSection({
                   </figure>
                 ))}
                 {dia.videoId && (
-                  <figure className="dia-video">
-                    <div className="dia-video-marco">
-                      <iframe
-                        className="dia-video-iframe"
-                        src={`https://www.youtube.com/embed/${dia.videoId}?rel=0`}
-                        title={dia.videoLabel ?? "Video del día"}
-                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerPolicy="strict-origin"
-                        allowFullScreen
-                      />
-                    </div>
-                    {dia.videoLabel && (
-                      <figcaption className="dia-video-pie">
-                        <span className="dia-video-rec" aria-hidden="true" />
-                        {dia.videoLabel}
-                      </figcaption>
-                    )}
-                  </figure>
+                  <VideoCorto videoId={dia.videoId} label={dia.videoLabel} />
                 )}
               </div>
             )}
