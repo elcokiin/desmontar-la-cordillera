@@ -1,4 +1,5 @@
 import { heroStats } from "@/lib/viaje-data"
+import { HeroPhoto } from "@/components/viaje/hero-photo"
 
 export function Hero() {
   return (
@@ -28,9 +29,7 @@ export function Hero() {
               Golfo.
             </p>
           </div>
-          <figure className="hero-image" aria-label="Registro fotográfico del transecto">
-            <img src="/assets/hero/cordillera-hero.png" alt="Paisaje del recorrido de campo" />
-          </figure>
+          <HeroPhoto />
         </div>
         <div className="hero-stats p-6">
           {heroStats.map((s) => (
