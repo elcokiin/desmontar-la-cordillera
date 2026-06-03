@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useEffect, useState } from "react"
+import { useScrollProgress } from "@/hooks/use-scroll-progress"
 
 const enlaces = [
   { href: "#dias", label: "Días" },
@@ -12,35 +13,26 @@ const enlaces = [
 ]
 
 export function NavBar() {
+  const scrollProgress = useScrollProgress()
   // Barra de progreso de lectura: arranca en 10% y se completa al llegar al final del scroll.
-  const [progreso, setProgreso] = useState(10)
+  const progreso = 10 + scrollProgress * 90
   // Alto del header para anclar la línea de progreso justo sobre su borde inferior.
   const [navAltura, setNavAltura] = useState(64)
 
   useEffect(() => {
     const nav = document.querySelector<HTMLElement>(".nav-bar")
 
-    function actualizarProgreso() {
-      const doc = document.documentElement
-      const altoScrollable = doc.scrollHeight - window.innerHeight
-      const ratio = altoScrollable > 0 ? window.scrollY / altoScrollable : 0
-      const acotado = Math.min(1, Math.max(0, ratio))
-      // Mapea 0 -> 10% y 1 -> 100%
-      setProgreso(10 + acotado * 90)
-    }
-
     function actualizarAltura() {
       if (nav) setNavAltura(nav.offsetHeight)
     }
 
-    actualizarProgreso()
     actualizarAltura()
-    window.addEventListener("scroll", actualizarProgreso, { passive: true })
-    window.addEventListener("resize", actualizarProgreso)
+    const observer = nav ? new ResizeObserver(actualizarAltura) : null
+    if (nav) observer?.observe(nav)
     window.addEventListener("resize", actualizarAltura)
+
     return () => {
-      window.removeEventListener("scroll", actualizarProgreso)
-      window.removeEventListener("resize", actualizarProgreso)
+      observer?.disconnect()
       window.removeEventListener("resize", actualizarAltura)
     }
   }, [])
@@ -104,7 +96,7 @@ export function NavBar() {
       </ul>
       <div
         className="nav-progreso"
-        style={{ width: `${progreso}%`, top: `${navAltura}px` }}
+        style={{ transform: `scaleX(${progreso / 100})`, top: `${navAltura}px` }}
         role="progressbar"
         aria-label="Progreso de lectura"
         aria-valuemin={0}
