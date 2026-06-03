@@ -13,8 +13,12 @@ const enlaces = [
 export function NavBar() {
   // Barra de progreso de lectura: arranca en 10% y se completa al llegar al final del scroll.
   const [progreso, setProgreso] = useState(10)
+  // Alto del header para anclar la línea de progreso justo sobre su borde inferior.
+  const [navAltura, setNavAltura] = useState(64)
 
   useEffect(() => {
+    const nav = document.querySelector<HTMLElement>(".nav-bar")
+
     function actualizarProgreso() {
       const doc = document.documentElement
       const altoScrollable = doc.scrollHeight - window.innerHeight
@@ -24,12 +28,19 @@ export function NavBar() {
       setProgreso(10 + acotado * 90)
     }
 
+    function actualizarAltura() {
+      if (nav) setNavAltura(nav.offsetHeight)
+    }
+
     actualizarProgreso()
+    actualizarAltura()
     window.addEventListener("scroll", actualizarProgreso, { passive: true })
     window.addEventListener("resize", actualizarProgreso)
+    window.addEventListener("resize", actualizarAltura)
     return () => {
       window.removeEventListener("scroll", actualizarProgreso)
       window.removeEventListener("resize", actualizarProgreso)
+      window.removeEventListener("resize", actualizarAltura)
     }
   }, [])
 
@@ -92,7 +103,7 @@ export function NavBar() {
       </ul>
       <div
         className="nav-progreso"
-        style={{ width: `${progreso}%` }}
+        style={{ width: `${progreso}%`, top: `${navAltura}px` }}
         role="progressbar"
         aria-label="Progreso de lectura"
         aria-valuemin={0}

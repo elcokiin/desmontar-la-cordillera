@@ -185,16 +185,20 @@
   background: var(--negro);
   border-bottom: var(--borde-grueso);
 }
-/* Barra de progreso de lectura sobre el borde inferior del header */
+/* Barra de progreso de lectura: línea fija anclada al borde inferior del header.
+   Va FUERA del flujo flex del nav (position: fixed) para no mover el logo ni los enlaces. */
 .nav-progreso {
-  position: absolute;
+  position: fixed;
+  top: var(--nav-altura, 64px);
   left: 0;
-  bottom: -3px;
   height: 4px;
+  margin-top: -3px;
   background: var(--acento);
   box-shadow: 0 0 10px var(--acento);
   transition: width 0.12s linear;
-  z-index: 1;
+  pointer-events: none;
+  will-change: width;
+  z-index: 101;
 }
 .nav-logo {
   display: inline-flex;
