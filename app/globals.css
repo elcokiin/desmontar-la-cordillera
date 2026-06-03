@@ -349,6 +349,8 @@
   transform: perspective(1000px) rotateX(var(--hero-photo-tilt-x))
     rotateY(var(--hero-photo-tilt-y));
   transform-style: preserve-3d;
+  cursor: zoom-in;
+  user-select: none;
   transition:
     transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
@@ -382,15 +384,22 @@
   opacity: 0.92;
 }
 .hero-image:hover,
-.hero-image:focus-within {
+.hero-image:focus-visible {
   border-color: var(--arena);
   box-shadow:
     16px 16px 0px var(--coral),
     0 28px 92px color-mix(in srgb, var(--azul) 30%, transparent);
 }
 .hero-image:hover::before,
-.hero-image:focus-within::before {
+.hero-image:focus-visible::before {
   transform: translate3d(-12px, -12px, -36px);
+}
+.hero-image:focus-visible {
+  outline: 3px solid var(--arena);
+  outline-offset: 8px;
+}
+.hero-image-zoomed {
+  cursor: zoom-out;
 }
 .hero-image-depth {
   position: absolute;
@@ -412,35 +421,9 @@
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .hero-image:hover .hero-image-stage,
-.hero-image:focus-within .hero-image-stage {
+.hero-image:focus-visible .hero-image-stage,
+.hero-image-zoomed .hero-image-stage {
   transform: translateZ(42px);
-}
-.hero-image-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-  pointer-events: none;
-}
-.hero-image-glow::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(
-      circle at var(--hero-photo-x) var(--hero-photo-y),
-      color-mix(in srgb, var(--arena) 42%, transparent) 0,
-      color-mix(in srgb, var(--arena) 16%, transparent) 18%,
-      transparent 42%
-    ),
-    linear-gradient(180deg, transparent 52%, color-mix(in srgb, var(--negro) 18%, transparent));
-  mix-blend-mode: soft-light;
-  opacity: 0.45;
-  transition: opacity 0.3s ease;
-}
-.hero-image:hover .hero-image-glow::before,
-.hero-image:focus-within .hero-image-glow::before {
-  opacity: 0.76;
 }
 .hero-image img {
   width: 100%;
@@ -450,11 +433,19 @@
   position: relative;
   z-index: 0;
   background: var(--negro);
-  transition: filter 0.35s ease;
+  transform: scale(1);
+  transform-origin: var(--hero-photo-x) var(--hero-photo-y);
+  transition:
+    filter 0.35s ease,
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .hero-image:hover img,
-.hero-image:focus-within img {
+.hero-image:focus-visible img,
+.hero-image-zoomed img {
   filter: saturate(1.08) contrast(1.03);
+}
+.hero-image-zoomed img {
+  transform: scale(1.72);
 }
 .hero-stats {
   display: flex;
