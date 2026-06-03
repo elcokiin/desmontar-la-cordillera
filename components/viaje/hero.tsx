@@ -7,7 +7,7 @@ export function Hero() {
         URABÁ
       </div>
       <p className="hero-meta">
-        Geografía Humana de Colombia &nbsp;·&nbsp; [Universidad] &nbsp;·&nbsp; [Año]
+        Geografía Humana de Colombia &nbsp;·&nbsp; UPTC &nbsp;·&nbsp; 2026
       </p>
       <h1>
         Desmontar la
@@ -18,11 +18,13 @@ export function Hero() {
         <strong>RELATOS DE RUANA, ASFALTO Y BANANO.</strong>
         <br />
         <br />
-        Siete días descendiendo por las grietas de Cundinamarca y Antioquia para
-        entender qué pasa con la tierra y la gente cuando el frío de Tunja se
-        rinde ante el calor del Urabá.
+        De la cuna del <em>sumercé</em> a la tierra del banano y el plátano. Un
+        transecto de siete días por las venas del noroccidente colombiano: una
+        bitácora viva para leer el mapa y a su gente, justo cuando el frío se
+        apaga, la cordillera cede y el país desemboca de golpe en el calor del
+        Golfo.
       </p>
-      <div className="hero-stats">
+      <div className="hero-stats p-6">
         {heroStats.map((s) => (
           <div key={s.lbl}>
             <span className="hero-stat-num">{s.num}</span>

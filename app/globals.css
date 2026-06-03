@@ -185,12 +185,37 @@
   background: var(--negro);
   border-bottom: var(--borde-grueso);
 }
+/* Barra de progreso de lectura: línea fija anclada al borde inferior del header.
+   Va FUERA del flujo flex del nav (position: fixed) para no mover el logo ni los enlaces. */
+.nav-progreso {
+  position: fixed;
+  top: var(--nav-altura, 64px);
+  left: 0;
+  height: 4px;
+  margin-top: -3px;
+  background: var(--acento);
+  box-shadow: 0 0 10px var(--acento);
+  transition: width 0.12s linear;
+  pointer-events: none;
+  will-change: width;
+  z-index: 101;
+}
 .nav-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
   font-family: var(--font-bebas), sans-serif;
   font-size: 1.4rem;
   letter-spacing: 0.1em;
   color: var(--arena);
   text-decoration: none;
+}
+.nav-logo-icon {
+  flex-shrink: 0;
+  transition: transform 0.4s ease;
+}
+.nav-logo:hover .nav-logo-icon {
+  transform: rotate(25deg);
 }
 .nav-links {
   display: flex;
@@ -289,7 +314,6 @@
   gap: 3rem;
   position: relative;
   border-top: 3px solid var(--verde);
-  padding-top: 1.5rem;
   background: var(--negro);
   flex-wrap: wrap;
 }
@@ -608,43 +632,234 @@
   height: 35px;
   color: var(--arena);
 }
-.video-placeholder {
+/* ---- VIDEO EMBEBIDO (YouTube) con estética de la página ---- */
+.dia-video {
+  margin: 0 0 1rem;
   width: 100%;
-  aspect-ratio: 16/9;
+}
+/* Marco vertical tipo "short" (9:16), responsivo y centrado */
+.vc-marco {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  aspect-ratio: 9 / 16;
   background: var(--negro);
   border: 2px solid var(--azul);
   box-shadow: 6px 6px 0px var(--azul);
+  overflow: hidden;
+}
+.vc-player {
+  position: absolute;
+  inset: 0;
+}
+.vc-iframe-host,
+.vc-player iframe {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  display: block;
+}
+
+/* Overlay grande de play/pausa (cubre el video y captura el clic) */
+.vc-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  border: 0;
+  background: color-mix(in srgb, var(--negro) 30%, transparent);
   cursor: pointer;
-  margin-bottom: 1rem;
-  transition: transform 0.2s;
+  transition: opacity 0.2s ease, background 0.2s ease;
+  z-index: 2;
 }
-.video-placeholder:hover {
-  transform: translate(-3px, -3px);
+.vc-overlay.reproduciendo {
+  opacity: 0;
+  background: transparent;
 }
-.play-circle {
-  width: 50px;
-  height: 50px;
-  background: var(--azul);
+.vc-overlay.reproduciendo:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--negro) 20%, transparent);
+}
+.vc-overlay-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--blanco);
+  width: 64px;
+  height: 64px;
+  color: var(--negro);
+  background: var(--acento);
+  border: 3px solid var(--blanco);
+  box-shadow: 4px 4px 0 var(--negro);
+  transition: transform 0.15s ease;
 }
-.play-circle svg {
-  width: 20px;
-  height: 20px;
-  fill: var(--blanco);
-  margin-left: 3px;
+.vc-overlay-btn svg {
+  margin-left: 2px;
 }
-.video-label {
-  font-size: 0.9rem;
-  font-weight: 700;
+.vc-overlay:hover .vc-overlay-btn {
+  transform: translate(-2px, -2px);
+}
+
+/* Barra de controles inferior con la estética de la página */
+.vc-barra-control {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--negro) 92%, transparent),
+    transparent
+  );
+  z-index: 3;
+}
+.vc-mini-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  color: var(--negro);
+  background: var(--acento);
+  border: 2px solid var(--negro);
+  cursor: pointer;
+  transition: transform 0.12s ease;
+}
+.vc-mini-btn:hover {
+  transform: translateY(-1px);
+}
+.vc-tiempo {
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 0.95rem;
   letter-spacing: 0.06em;
   color: var(--blanco);
+  flex-shrink: 0;
+}
+.vc-tiempo-total {
+  color: color-mix(in srgb, var(--blanco) 65%, transparent);
+}
+.vc-progreso {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+}
+.vc-progreso-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: color-mix(in srgb, var(--blanco) 30%, transparent);
+}
+.vc-progreso-fill {
+  position: absolute;
+  left: 0;
+  height: 4px;
+  background: var(--acento);
+  box-shadow: 0 0 8px var(--acento);
+}
+.vc-progreso-knob {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: var(--acento);
+  border: 2px solid var(--negro);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.vc-cargando {
+  position: absolute;
+  inset: 0;
+  background: var(--negro);
+  z-index: 1;
+}
+
+/* Estado: el autor desactivó la reproducción incrustada (error 101/150) */
+.vc-bloqueado {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background: color-mix(in srgb, var(--negro) 88%, transparent);
+}
+.vc-bloqueado-rec {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--coral) 30%, transparent);
+}
+.vc-bloqueado-titulo {
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blanco);
+  margin: 0;
+}
+.vc-bloqueado-texto {
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--blanco) 75%, transparent);
+  margin: 0;
+}
+.vc-bloqueado-btn {
+  margin-top: 6px;
+  padding: 9px 16px;
+  font-family: var(--font-bebas), sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--negro);
+  background: var(--acento);
+  border: 2px solid var(--negro);
+  box-shadow: 3px 3px 0 var(--negro);
+  text-decoration: none;
+  transition: transform 0.15s ease;
+}
+.vc-bloqueado-btn:hover {
+  transform: translate(-2px, -2px);
+}
+.dia-video-pie {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: var(--azul);
+  border: 2px solid var(--negro);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--blanco);
+}
+.dia-video-rec {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--coral);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral) 35%, transparent);
+  flex-shrink: 0;
 }
 .dia-tags {
   display: flex;
@@ -1409,5 +1624,86 @@
     flex-direction: column;
     gap: 1.5rem;
     text-align: center;
+  }
+  .collage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---- FOTOS REALES DE CADA DÍA ---- */
+.dia-foto {
+  width: 100%;
+  aspect-ratio: 4/3;
+  margin: 0 0 2rem;
+  background: var(--negro);
+  border: 2px solid var(--acento);
+  box-shadow: 6px 6px 0px var(--acento);
+  overflow: hidden;
+}
+.dia-foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Cuando el día no tiene fotos ni video, el texto ocupa todo el ancho. */
+.dia-body-solo {
+  grid-template-columns: 1fr;
+}
+
+/* ---- FOTOS DEL EQUIPO (Expedicionarios) ---- */
+.equipo-avatar {
+  overflow: hidden;
+  padding: 0;
+}
+.equipo-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ---- COLLAGE / MOSAICO ---- */
+.collage-section {
+  padding: 6rem 2.5rem;
+  border-bottom: var(--borde-grueso);
+  position: relative;
+}
+.collage-intro {
+  max-width: 60ch;
+  margin: 1rem 0 2.5rem;
+  color: var(--blanco);
+  line-height: 1.6;
+}
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.collage-item {
+  margin: 0;
+  aspect-ratio: 3/4;
+  background: var(--negro);
+  border: 2px solid var(--acento);
+  box-shadow: 6px 6px 0px var(--arena);
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+.collage-item:hover {
+  transform: translate(-3px, -3px);
+}
+.collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 900px) {
+  .collage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .collage-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }

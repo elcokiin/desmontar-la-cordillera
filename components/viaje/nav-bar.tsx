@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
 
 const enlaces = [
   { href: "#dias", label: "Días" },
@@ -10,6 +11,39 @@ const enlaces = [
 ]
 
 export function NavBar() {
+  // Barra de progreso de lectura: arranca en 10% y se completa al llegar al final del scroll.
+  const [progreso, setProgreso] = useState(10)
+  // Alto del header para anclar la línea de progreso justo sobre su borde inferior.
+  const [navAltura, setNavAltura] = useState(64)
+
+  useEffect(() => {
+    const nav = document.querySelector<HTMLElement>(".nav-bar")
+
+    function actualizarProgreso() {
+      const doc = document.documentElement
+      const altoScrollable = doc.scrollHeight - window.innerHeight
+      const ratio = altoScrollable > 0 ? window.scrollY / altoScrollable : 0
+      const acotado = Math.min(1, Math.max(0, ratio))
+      // Mapea 0 -> 10% y 1 -> 100%
+      setProgreso(10 + acotado * 90)
+    }
+
+    function actualizarAltura() {
+      if (nav) setNavAltura(nav.offsetHeight)
+    }
+
+    actualizarProgreso()
+    actualizarAltura()
+    window.addEventListener("scroll", actualizarProgreso, { passive: true })
+    window.addEventListener("resize", actualizarProgreso)
+    window.addEventListener("resize", actualizarAltura)
+    return () => {
+      window.removeEventListener("scroll", actualizarProgreso)
+      window.removeEventListener("resize", actualizarProgreso)
+      window.removeEventListener("resize", actualizarAltura)
+    }
+  }, [])
+
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     // Solo interceptamos anclas internas
     if (!href.startsWith("#")) return
@@ -37,7 +71,25 @@ export function NavBar() {
 
   return (
     <nav className="nav-bar">
-      <a href="#" className="nav-logo" onClick={(e) => handleClick(e, "#")}>
+      <a href="#" className="nav-logo flex flex-row items-center gap-2" onClick={(e) => handleClick(e, "#")}>
+        <svg
+          className="nav-logo-icon"
+          viewBox="0 0 32 32"
+          width="24"
+          height="24"
+          role="img"
+          aria-label="Logo planeta Tierra"
+        >
+          <circle cx="16" cy="16" r="14" fill="#0284c7" stroke="#f9e076" strokeWidth="2" />
+          <clipPath id="navLogoGlobe">
+            <circle cx="16" cy="16" r="13" />
+          </clipPath>
+          <g clipPath="url(#navLogoGlobe)" fill="#327028">
+            <path d="M5 11c3-1 6 0 7 2s-1 4-3 4-3-1-4-3-1-2 0-3Z" />
+            <path d="M17 5c3 0 5 2 6 4s-1 4-3 4-2-2-4-3-2-5 1-5Z" />
+            <path d="M13 18c3-1 7 0 9 3s0 5-3 6-6-1-7-4 0-4 1-5Z" />
+          </g>
+        </svg>
         Geografía Humana · Colombia
       </a>
       <ul className="nav-links">
@@ -49,6 +101,15 @@ export function NavBar() {
           </li>
         ))}
       </ul>
+      <div
+        className="nav-progreso"
+        style={{ width: `${progreso}%`, top: `${navAltura}px` }}
+        role="progressbar"
+        aria-label="Progreso de lectura"
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-valuenow={Math.round(progreso)}
+      />
     </nav>
   )
 }

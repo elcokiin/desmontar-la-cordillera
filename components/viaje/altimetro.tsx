@@ -20,7 +20,7 @@ export function Altimetro() {
   const lugar = lugaresOrdenados[indice]
 
   // Arranca minimizado y compacto al cargar la página.
-  const [minimizado, setMinimizado] = useState(true)
+  const [minimizado, setMinimizado] = useState(false)
   // pos = null => usa la posición por defecto del CSS (borde derecho, bajo el header).
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null)
   const arrastre = useRef<{ dx: number; dy: number } | null>(null)
